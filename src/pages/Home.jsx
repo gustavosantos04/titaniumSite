@@ -1,49 +1,126 @@
-// src/pages/Home.jsx
+import React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
+import { ReactTyped } from 'react-typed'
 
-const Hero = styled.section`
+const HeroSection = styled.section`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 100px 0 4rem;
+  min-height: 100vh;
+  background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.text};
+`
+
+const Container = styled.div`
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3rem;
+`
+
+const Left = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
+`
+
+const Right = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  height: 90vh;
-  background: linear-gradient(to bottom, #011526, #01060D);
-  color: white;
-  text-align: center;
-  padding: 2rem;
 `
 
 const Title = styled(motion.h1)`
   font-size: 3rem;
-  margin-bottom: 1rem;
+  font-weight: bold;
+  color: ${({ theme }) => theme.primary};
 `
 
-const Subtitle = styled(motion.p)`
-  font-size: 1.2rem;
-  max-width: 600px;
-  color: #b0c4de;
+const Subtitle = styled.p`
+  font-size: 1.25rem;
+  max-width: 900px;
+  margin: 1rem 0 2rem;
+  line-height: 1.5;
+  white-space: normal;
+  word-break: normal;
+`
+
+const CTAButton = styled(motion.a)`
+  padding: 1rem 1.5rem;
+  max-width: 280px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+  background: ${({ theme }) => theme.primary};
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.secondary};
+  }
+`
+
+const HeroImage = styled.img`
+  max-width: 80%;
+  border-radius: 20px;
+  box-shadow: 0px 4px 30px rgba(0,0,0,0.3);
 `
 
 function Home() {
   return (
-    <Hero>
-      <Title
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        Aqui criamos legados
-      </Title>
-
-      <Subtitle
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 1 }}
-      >
-        Soluções digitais premium em marketing, sites e sistemas personalizados.
-      </Subtitle>
-    </Hero>
+    <HeroSection>
+      <Container>
+        <Left>
+          <Title
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+          >
+            Aqui Criamos Legados
+          </Title>
+          <Subtitle>
+            aqui criamos{' '}
+            <ReactTyped
+              strings={[
+                'Sites Profissionais para Empresas',
+                'Sistemas Personalizados para Negócios',
+                'Marketing Digital para Alavancar Sua Marca',
+              ]}
+              typeSpeed={40}
+              backSpeed={30}
+              loop
+            />
+          </Subtitle>
+          <CTAButton
+            as={motion.a}
+            href="https://wa.me/SEUNUMEROAQUI"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Fale com um especialista
+          </CTAButton>
+        </Left>
+        <Right>
+          <HeroImage
+            src="public\arnold-francisca-f77Bh3inUpE-unsplash.jpg"
+            alt="Desenvolvimento de software e marketing digital"
+          />
+        </Right>
+      </Container>
+    </HeroSection>
   )
 }
 

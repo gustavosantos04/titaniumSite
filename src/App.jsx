@@ -1,16 +1,20 @@
-// src/App.jsx
+import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import Home from './pages/Home'
+import WhatsappButton from './components/WhatsappButton' // <-- Importação
 
 function App() {
   return (
     <>
-      <Navbar /> {/* Componente de navegação no topo */}
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* Rotas futuras: /sobre, /serviços, etc */}
+        {/* Outras rotas */}
       </Routes>
+      <Footer />
+      <WhatsappButton /> {/* <-- Adição aqui */}
     </>
   )
 }

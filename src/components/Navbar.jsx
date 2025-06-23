@@ -1,50 +1,88 @@
-// src/components/Navbar.jsx
+import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
-const NavbarContainer = styled.nav`
+const Nav = styled.nav`
+  position: fixed;
+  top: 0;
   width: 100%;
-  padding: 1rem 2rem;
-  background-color: #012840; /* Azul escuro da paleta */
+  height: 80px;
+  background-color: ${({ theme }) => theme.background};
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+  z-index: 1000;
+  border-bottom: 1px solid ${({ theme }) => theme.secondary};
 `
 
-const Logo = styled.h1`
-  color: #2063BC;
-  font-size: 1.5rem;
-  font-weight: bold;
+const Logo = styled.img`
+  height: 100px;
+  width: auto;
 `
 
-const NavLinks = styled.div`
+const Menu = styled.ul`
   display: flex;
-  gap: 1.5rem;
-`
+  gap: 2rem;
+  list-style: none;
 
-const NavLink = styled(Link)`
-  color: white;
-  font-weight: 500;
-  transition: 0.3s;
+  a {
+    font-size: 1rem;
+    font-weight: 500;
+    color: ${({ theme }) => theme.text};
+    padding: 0.5rem;
+    position: relative;
 
-  &:hover {
-    color: #2063BC;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: ${({ theme }) => theme.secondary};
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
   }
 `
 
 function Navbar() {
+  const location = useLocation()
+
   return (
-    <NavbarContainer>
-      <Logo>Titanium</Logo> {/* Aqui pode entrar o ícone futuramente */}
-      <NavLinks>
-        <NavLink to="/">Início</NavLink>
-        <NavLink to="/sobre">Sobre</NavLink>
-        <NavLink to="/servicos">Serviços</NavLink>
-        <NavLink to="/projetos">Projetos</NavLink>
-        <NavLink to="/blog">Blog</NavLink>
-        <NavLink to="/contato">Contato</NavLink>
-      </NavLinks>
-    </NavbarContainer>
+    <Nav>
+      <Logo src="public\Logo TItanium png lateral.png" alt="Logo Titanium" />
+      <Menu>
+        {[
+          { path: '/', label: 'Início' },
+          { path: '/sobre', label: 'Sobre' },
+          { path: '/servicos', label: 'Serviços' },
+          { path: '/projetos', label: 'Projetos' },
+          { path: '/blog', label: 'Blog' },
+          { path: '/contato', label: 'Contato' },
+        ].map((item) => (
+          <li key={item.path}>
+            <Link
+              to={item.path}
+              style={{
+                color:
+                  location.pathname === item.path
+                    ? 'var(--active-color, #E0Af46)' // Cor destaque para ativo
+                    : 'inherit',
+              }}
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </Menu>
+    </Nav>
   )
 }
 
