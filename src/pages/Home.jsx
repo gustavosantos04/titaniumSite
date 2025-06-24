@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { ReactTyped } from 'react-typed'
+import About from '../About/About' // ✅ Importação da Seção Sobre
 
 const HeroSection = styled.section`
   display: flex;
@@ -21,6 +22,11 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 3rem;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    text-align: center;
+  }
 `
 
 const Left = styled.div`
@@ -28,6 +34,10 @@ const Left = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  @media (max-width: 1024px) {
+    align-items: center;
+  }
 `
 
 const Right = styled.div`
@@ -35,6 +45,10 @@ const Right = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 1024px) {
+    margin-top: 2rem;
+  }
 `
 
 const Title = styled(motion.h1)`
@@ -74,53 +88,56 @@ const CTAButton = styled(motion.a)`
 const HeroImage = styled.img`
   max-width: 80%;
   border-radius: 20px;
-  box-shadow: 0px 4px 30px rgba(0,0,0,0.3);
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.3);
 `
 
 function Home() {
   return (
-    <HeroSection>
-      <Container>
-        <Left>
-          <Title
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
-            Aqui Criamos Legados
-          </Title>
-          <Subtitle>
-            aqui criamos{' '}
-            <ReactTyped
-              strings={[
-                'Sites Profissionais para Empresas',
-                'Sistemas Personalizados para Negócios',
-                'Marketing Digital para Alavancar Sua Marca',
-              ]}
-              typeSpeed={40}
-              backSpeed={30}
-              loop
+    <>
+      <HeroSection>
+        <Container>
+          <Left>
+            <Title
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+            >
+              Aqui Criamos Legados
+            </Title>
+            <Subtitle>
+              aqui criamos{' '}
+              <ReactTyped
+                strings={[
+                  'Sites Profissionais para Empresas',
+                  'Sistemas Personalizados para Negócios',
+                  'Marketing Digital para Alavancar Sua Marca',
+                ]}
+                typeSpeed={40}
+                backSpeed={30}
+                loop
+              />
+            </Subtitle>
+            <CTAButton
+              as={motion.a}
+              href="https://wa.me/SEUNUMEROAQUI"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Fale com um especialista
+            </CTAButton>
+          </Left>
+          <Right>
+            <HeroImage
+              src="/arnold-francisca-f77Bh3inUpE-unsplash.jpg"
+              alt="Desenvolvimento de software e marketing digital"
             />
-          </Subtitle>
-          <CTAButton
-            as={motion.a}
-            href="https://wa.me/SEUNUMEROAQUI"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Fale com um especialista
-          </CTAButton>
-        </Left>
-        <Right>
-          <HeroImage
-            src="public\arnold-francisca-f77Bh3inUpE-unsplash.jpg"
-            alt="Desenvolvimento de software e marketing digital"
-          />
-        </Right>
-      </Container>
-    </HeroSection>
+          </Right>
+        </Container>
+      </HeroSection>
+      <About /> {/* ✅ Seção Sobre Adicionada */}
+    </>
   )
 }
 

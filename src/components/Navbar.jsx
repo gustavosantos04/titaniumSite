@@ -57,7 +57,7 @@ function Navbar() {
 
   return (
     <Nav>
-      <Logo src="public\Logo TItanium png lateral.png" alt="Logo Titanium" />
+      <Logo src="public\logoTitanium.png" alt="Logo Titanium" />
       <Menu>
         {[
           { path: '/', label: 'Início' },
