@@ -15,7 +15,7 @@ const HeroSection = styled.section`
 `
 
 const Container = styled.div`
-  max-width: 1500px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 2rem;
   display: flex;
@@ -68,7 +68,7 @@ const Subtitle = styled.p`
 
 const CTAButton = styled(motion.a)`
   padding: 1rem 1.5rem;
-  max-width: 280px;
+  max-width: 250px;
   font-size: 1.1rem;
   font-weight: bold;
   border-radius: 40px;
@@ -77,6 +77,7 @@ const CTAButton = styled(motion.a)`
   background: ${({ theme }) => theme.primary};
   color: #fff;
   text-decoration: none;
+  text-align: center;
   white-space: nowrap;
   transition: background 0.3s ease;
 
@@ -102,7 +103,7 @@ function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
             >
-              Aqui Criamos Legados
+              Vamos contruir seu Legado?
             </Title>
             <Subtitle>
               aqui criamos{' '}
@@ -125,7 +126,7 @@ function Home() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              Fale com um especialista
+              Criar seu Legado
             </CTAButton>
           </Left>
           <Right>
