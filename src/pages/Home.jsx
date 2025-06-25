@@ -3,15 +3,46 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { ReactTyped } from 'react-typed'
 import About from '../About/About' // ✅ Importação da Seção Sobre
+import Services from './Services'
 
 const HeroSection = styled.section`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 100px 0 4rem;
   min-height: 100vh;
-  background-color: ${({ theme }) => theme.background};
+  background: linear-gradient(135deg, #01060D 30%, #050A30 100%);
   color: ${({ theme }) => theme.text};
+  overflow: hidden;
+
+  /* Elementos de destaque no fundo */
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 100%;
+    filter: blur(100px);
+    z-index: 0;
+  }
+
+  &::before {
+    top: -100px;
+    left: -100px;
+    width: 500px;
+    height: 500px;
+    background: #3D6AC1;
+    opacity: 0.25;
+  }
+
+  &::after {
+    bottom: -100px;
+    right: -100px;
+    width: 600px;
+    height: 600px;
+    background: #2A468B;
+    opacity: 0.25;
+  }
 `
 
 const Container = styled.div`
@@ -138,6 +169,7 @@ function Home() {
         </Container>
       </HeroSection>
       <About /> {/* ✅ Seção Sobre Adicionada */}
+      <Services/>
     </>
   )
 }

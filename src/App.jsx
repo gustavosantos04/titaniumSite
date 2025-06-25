@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import WhatsappButton from './components/WhatsappButton' // <-- Importação
+import Services from './pages/Services'
 
 function App() {
   return (
