@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { ReactTyped } from 'react-typed'
 import About from '../About/About' // ✅ Importação da Seção Sobre
 import Services from './Services'
+import Differentials from './Differentials'
 
 const HeroSection = styled.section`
   position: relative;
@@ -170,6 +171,7 @@ function Home() {
       </HeroSection>
       <About /> {/* ✅ Seção Sobre Adicionada */}
       <Services/>
+      <Differentials/>
     </>
   )
 }

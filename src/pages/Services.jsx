@@ -116,7 +116,7 @@ const CTAButton = styled(motion.a)`
   z-index: 10; /* Garante que fique acima dos cards */
 
   &:hover {
-    background: #050A30;
+    background: #E0Af46;
   }
 `
 
@@ -129,7 +129,7 @@ const SmallCTAButton = styled.a`
   text-decoration: underline;
 
   &:hover {
-    color: #105773;
+    color: #E0Af46;
   }
 `
 
