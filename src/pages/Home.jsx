@@ -5,6 +5,7 @@ import { ReactTyped } from 'react-typed'
 import About from '../About/About' // ✅ Importação da Seção Sobre
 import Services from './Services'
 import Differentials from './Differentials'
+import Contato from './Contato'
 
 const HeroSection = styled.section`
   position: relative;
@@ -172,6 +173,7 @@ function Home() {
       <About /> {/* ✅ Seção Sobre Adicionada */}
       <Services/>
       <Differentials/>
+      <Contato/>
     </>
   )
 }
