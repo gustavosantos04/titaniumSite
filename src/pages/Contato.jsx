@@ -96,7 +96,7 @@ const Contato = () => {
 
         <ContactButtons>
           <ContactItem
-            href="https://wa.me/SEUNUMERO?text=Olá, quero criar meu legado digital com vocês!"
+            href="https://wa.me/5551995988984?text=Olá, quero criar meu legado digital com vocês!"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -104,13 +104,13 @@ const Contato = () => {
           </ContactItem>
 
           <ContactItem
-            href="mailto:seuemail@exemplo.com?subject=Quero criar meu site com a Titanium"
+            href="mailto:titaniumagencylegacy@gmail.com?subject=Quero criar o meu Legado!"
           >
             <FaEnvelope /> E-mail
           </ContactItem>
 
           <ContactItem
-            href="https://instagram.com/suaempresa"
+            href="https://www.instagram.com/titaniumagencylegacy/"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -119,7 +119,7 @@ const Contato = () => {
         </ContactButtons>
 
         <CTAButton
-          href="https://wa.me/SEUNUMERO?text=Olá, quero construir meu legado com a Titanium!"
+          href="https://wa.me/5551995988984?text=Olá, quero construir meu legado com a Titanium!"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           target="_blank"

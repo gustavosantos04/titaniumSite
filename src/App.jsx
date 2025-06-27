@@ -1,21 +1,24 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
-import WhatsappButton from './components/WhatsappButton' // <-- Importação
+import About from './About/About'
 import Services from './pages/Services'
+import Differentials from './pages/Differentials'
+import Contato from './pages/Contato'
+import WhatsappButton from './components/WhatsappButton'
 
 function App() {
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* Outras rotas */}
-      </Routes>
+      <Home />
+      <About />
+      <Services />
+      <Differentials />
+      <Contato />
       <Footer />
-      <WhatsappButton /> {/* <-- Adição aqui */}
+      <WhatsappButton />
     </>
   )
 }

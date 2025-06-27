@@ -153,7 +153,7 @@ const About = () => {
   const [featuresRef, featuresInView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <AboutSection>
+    <AboutSection id="about">
       <Container>
         <MainContent ref={mainRef}>
           <Left

@@ -14,10 +14,19 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Montserrat', sans-serif;
   }
 
+  body, html, #root {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
   a {
     text-decoration: none;
     color: inherit;
   }
 `
+
+
 
 export default GlobalStyle

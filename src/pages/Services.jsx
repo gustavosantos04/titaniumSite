@@ -120,19 +120,6 @@ const CTAButton = styled(motion.a)`
   }
 `
 
-// Link secundário dentro do card para saber mais
-const SmallCTAButton = styled.a`
-  display: block;
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #3D6AC1;
-  text-decoration: underline;
-
-  &:hover {
-    color: #E0Af46;
-  }
-`
-
 const Services = () => {
   // Animação para movimentar os cards conforme o scroll
   const { scrollYProgress } = useScroll()
@@ -154,7 +141,6 @@ const Services = () => {
             <FaCode />
             <h3>Desenvolvimento</h3>
             <p>Sites, sistemas e soluções sob medida para levar o seu negócio ao próximo nível digital.</p>
-            <SmallCTAButton href="#">Saiba Mais</SmallCTAButton>
           </ServiceCard>
 
           <ServiceCard
@@ -168,7 +154,6 @@ const Services = () => {
             <FaPaintBrush />
             <h3>Design</h3>
             <p>Identidade visual e interfaces atraentes para destacar a sua marca e gerar conexão com seu público.</p>
-            <SmallCTAButton href="#">Saiba Mais</SmallCTAButton>
           </ServiceCard>
 
           <ServiceCard
@@ -182,7 +167,6 @@ const Services = () => {
             <FaBullhorn />
             <h3>Marketing Digital</h3>
             <p>Estratégias e conteúdo para aumentar o alcance e melhorar as suas vendas online.</p>
-            <SmallCTAButton href="#">Saiba Mais</SmallCTAButton>
           </ServiceCard>
         </ServicesGrid>
 

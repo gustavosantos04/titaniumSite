@@ -128,7 +128,7 @@ const HeroImage = styled.img`
 function Home() {
   return (
     <>
-      <HeroSection>
+      <HeroSection id="home">
         <Container>
           <Left>
             <Title
@@ -153,7 +153,7 @@ function Home() {
             </Subtitle>
             <CTAButton
               as={motion.a}
-              href="https://wa.me/SEUNUMEROAQUI"
+              href="https://wa.me/5551995988984?text=Olá, quero construir meu legado com a Titanium!"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
@@ -170,10 +170,6 @@ function Home() {
           </Right>
         </Container>
       </HeroSection>
-      <About /> {/* ✅ Seção Sobre Adicionada */}
-      <Services/>
-      <Differentials/>
-      <Contato/>
     </>
   )
 }
