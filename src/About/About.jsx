@@ -163,7 +163,7 @@ const About = () => {
             transition={{ duration: 1 }}
           >
             <img
-              src="src\assets\bench-accounting-C3V88BOoRoM-unsplash.jpg"
+              src="/bench-accounting-C3V88BOoRoM-unsplash.jpg"
               alt="Equipe Titanium Agency"
             />
           </Left>
