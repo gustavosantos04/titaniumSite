@@ -3,23 +3,23 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 >
   <url>
-    <loc>https://www.seusite.com/</loc>
+    <loc>https://www.titaniumagencylegacy.com.br/</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.seusite.com/#about</loc>
+    <loc>https://www.titaniumagencylegacy.com.br/#about</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.seusite.com/#servicos</loc>
+    <loc>https://www.titaniumagencylegacy.com.br/#servicos</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.seusite.com/#diferenciais</loc>
+    <loc>https://www.titaniumagencylegacy.com.br/#diferenciais</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.seusite.com/#contato</loc>
+    <loc>https://www.titaniumagencylegacy.com.br/#contato</loc>
     <priority>0.7</priority>
   </url>
 </urlset>
