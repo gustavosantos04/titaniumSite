@@ -166,6 +166,7 @@ function Home() {
             <HeroImage
               src="/arnold-francisca-f77Bh3inUpE-unsplash.jpg"
               alt="Desenvolvimento de software e marketing digital"
+              loading="lazy"
             />
           </Right>
         </Container>
