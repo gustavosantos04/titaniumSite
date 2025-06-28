@@ -165,7 +165,6 @@ const About = () => {
             <img
               src="src\assets\bench-accounting-C3V88BOoRoM-unsplash.jpg"
               alt="Equipe Titanium Agency"
-              loading="lazy"
             />
           </Left>
           <Right
