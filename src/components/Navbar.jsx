@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-
 const Nav = styled.nav`
   position: fixed;
   top: 0;
@@ -9,8 +8,9 @@ const Nav = styled.nav`
   height: 80px;
   background: linear-gradient(100deg, #01060D 10%, #050A30 100%);
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between; /* mudar para space-between para dar espaço para hamburger */
   align-items: center;
+  padding: 0 1.5rem;
   z-index: 1000;
 `
 
@@ -26,17 +26,17 @@ const Menu = styled.ul`
 
   button {
     font-family: 'Montserrat';
-  font-size: 1rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.text};
-  padding: 0.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  position: relative;
+    font-size: 1rem;
+    font-weight: 500;
+    color: ${({ theme }) => theme.text};
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
 
     &.active {
-      color: #E0Af46;  /* cor específica pro link ativo */
+      color: #E0Af46;
     }
 
     &::after {
@@ -57,17 +57,66 @@ const Menu = styled.ul`
       transform-origin: left;
     }
   }
+
+  /* Responsividade: esconder menu no celular */
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 80px;
+    right: 0;
+    height: calc(100vh - 80px);
+    width: 200px;
+    background: linear-gradient(100deg, #01060D 10%, #050A30 100%);
+    flex-direction: column;
+    padding: 1rem 0;
+    gap: 1rem;
+    transform: ${({ open }) => (open ? 'translateX(0)' : 'translateX(100%)')};
+    transition: transform 0.3s ease-in-out;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  }
+`
+
+const Hamburger = styled.div`
+  display: none;
+  cursor: pointer;
+  z-index: 1100;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+
+  div {
+    width: 25px;
+    height: 3px;
+    background-color: ${({ open, theme }) => (open ? '#E0Af46' : theme.text)};
+    margin: 5px 0;
+    transition: all 0.3s ease;
+  }
+
+  /* Animar hamburger para X quando aberto */
+  ${({ open }) =>
+    open &&
+    `
+    div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    div:nth-child(2) {
+      opacity: 0;
+    }
+    div:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+  `}
 `
 
 function Navbar() {
-
   const [active, setActive] = useState('#home')
+  const [menuOpen, setMenuOpen] = useState(false)
 
   // Atualiza o active conforme o scroll da página
   useEffect(() => {
     function onScroll() {
       const sections = ['#home', '#about', '#servicos', '#diferenciais', '#contato']
-      const scrollPos = window.scrollY + 100 // ajuste para pegar topo da seção
+      const scrollPos = window.scrollY + 100
 
       let current = active
 
@@ -95,21 +144,32 @@ function Navbar() {
   ]
 
   const handleScroll = (id) => {
-    const yOffset = -80 // altura da navbar fixa
+    const yOffset = -80
     const element = document.getElementById(id)
     if (element) {
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
       window.scrollTo({ top: y, behavior: 'smooth' })
+      setMenuOpen(false) // fecha menu ao clicar em item (mobile)
     }
   }
 
   return (
     <Nav>
       <Logo src="/logoTitanium.png" alt="Logo Titanium" loading="lazy" />
-      <Menu>
+      <Hamburger open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu toggle" role="button" tabIndex={0}>
+        <div />
+        <div />
+        <div />
+      </Hamburger>
+      <Menu open={menuOpen}>
         {menuItems.map(({ id, label }) => (
           <li key={id}>
-            <button onClick={() => handleScroll(id)}>{label}</button>
+            <button
+              className={active === `#${id}` ? 'active' : ''}
+              onClick={() => handleScroll(id)}
+            >
+              {label}
+            </button>
           </li>
         ))}
       </Menu>
