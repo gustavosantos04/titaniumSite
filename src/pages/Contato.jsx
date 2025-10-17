@@ -44,44 +44,56 @@ const ContactButtons = styled.div`
   margin-bottom: 3rem;
 `
 
-const ContactItem = styled.a`
-  background: #3d6ac1;
+const ContactItem = styled(motion.a)`
+  background: linear-gradient(135deg, #3d6ac1, #5A8FD4);
   color: #fff;
-  padding: 1rem 2rem;
-  border-radius: 40px;
+  padding: 1.2rem 2rem;
+  border-radius: 50px;
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
-  transition: background 0.3s ease;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 20px rgba(61, 106, 193, 0.4);
 
   &:hover {
-    background: #ffffff;
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
     color: #3d6ac1;
+    box-shadow: 0 6px 30px rgba(61, 106, 193, 0.6);
+    transform: translateY(-2px);
   }
 
   svg {
     font-size: 1.4rem;
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover svg {
+    transform: scale(1.2);
   }
 `
 
 const CTAButton = styled(motion.a)`
   display: inline-block;
-  background: #ffffff;
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
   color: #050a30;
-  padding: 1rem 2.5rem;
-  border-radius: 40px;
+  padding: 1.2rem 2.5rem;
+  border-radius: 50px;
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 700;
   margin-top: 1rem;
   text-decoration: none;
   cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
 
   &:hover {
-    background: #3d6ac1;
+    background: linear-gradient(135deg, #3d6ac1, #5A8FD4);
     color: #fff;
+    box-shadow: 0 6px 30px rgba(61, 106, 193, 0.6);
+    transform: translateY(-2px);
   }
 `
 
@@ -99,12 +111,16 @@ const Contato = () => {
             href="https://wa.me/5551995988984?text=Olá, quero criar meu legado digital com vocês!"
             target="_blank"
             rel="noopener noreferrer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <FaWhatsapp /> WhatsApp
           </ContactItem>
 
           <ContactItem
             href="mailto:titaniumagencylegacy@gmail.com?subject=Quero criar o meu Legado!"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <FaEnvelope /> E-mail
           </ContactItem>
@@ -113,6 +129,8 @@ const Contato = () => {
             href="https://www.instagram.com/titaniumagencylegacy/"
             target="_blank"
             rel="noopener noreferrer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <FaInstagram /> Instagram
           </ContactItem>

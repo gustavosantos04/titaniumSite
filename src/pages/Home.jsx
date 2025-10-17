@@ -85,44 +85,73 @@ const Right = styled.div`
 `
 
 const Title = styled(motion.h1)`
-  font-size: 3rem;
-  font-weight: bold;
+  font-size: 3.5rem;
+  font-weight: 800;
   color: ${({ theme }) => theme.primary};
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
 `
 
 const Subtitle = styled.p`
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   max-width: 900px;
-  margin: 1rem 0 2rem;
-  line-height: 1.5;
+  margin: 1rem 0 2.5rem;
+  line-height: 1.6;
   white-space: normal;
   word-break: normal;
+  color: rgba(255, 255, 255, 0.9);
+  
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+  }
 `
 
 const CTAButton = styled(motion.a)`
-  padding: 1rem 1.5rem;
-  max-width: 250px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border-radius: 40px;
+  padding: 1.2rem 2.5rem;
+  max-width: 280px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border-radius: 50px;
   border: none;
   cursor: pointer;
-  background: ${({ theme }) => theme.primary};
+  background: linear-gradient(135deg, ${({ theme }) => theme.primary}, #5A8FD4);
   color: #fff;
   text-decoration: none;
   text-align: center;
   white-space: nowrap;
-  transition: background 0.3s ease;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 20px rgba(61, 106, 193, 0.4);
 
   &:hover {
-    background: ${({ theme }) => theme.secondary};
+    background: linear-gradient(135deg, #5A8FD4, ${({ theme }) => theme.primary});
+    box-shadow: 0 6px 30px rgba(61, 106, 193, 0.6);
+    transform: translateY(-2px);
+  }
+  
+  @media (max-width: 768px) {
+    padding: 1rem 2rem;
+    font-size: 1rem;
   }
 `
 
-const HeroImage = styled.img`
-  max-width: 80%;
+const HeroImage = styled(motion.img)`
+  max-width: 85%;
   border-radius: 20px;
-  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 8px 40px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s ease;
+  
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 12px 50px rgba(61, 106, 193, 0.3);
+  }
+  
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 `
 
 function Home() {
@@ -136,7 +165,7 @@ function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
             >
-              Vamos contruir seu Legado?
+              Vamos construir seu Legado?
             </Title>
             <Subtitle>
               aqui criamos{' '}
@@ -167,6 +196,9 @@ function Home() {
               src="/arnold-francisca-f77Bh3inUpE-unsplash.jpg"
               alt="Desenvolvimento de software e marketing digital"
               loading="lazy"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.3 }}
             />
           </Right>
         </Container>

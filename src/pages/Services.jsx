@@ -50,51 +50,44 @@ const ServicesGrid = styled.div`
 // Cada card de serviço estilizado com animações e hover
 const ServiceCard = styled(motion.div)`
   flex: 1;
-  max-width: 300px;
-  background: #021c31;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0px 4px 30px rgba(0,0,0,0.3);
+  max-width: 320px;
+  background: linear-gradient(135deg, #021c31, #032844);
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0px 8px 40px rgba(0,0,0,0.4);
   text-align: center;
-  position: relative; /* Necessário para o badge no canto */
+  position: relative;
   border: 2px solid transparent;
+  transition: all 0.4s ease;
 
   svg {
-    font-size: 3rem;
+    font-size: 3.5rem;
     color: #3D6AC1;
-    margin-bottom: 1rem;
-    transition: transform 0.3s ease;
+    margin-bottom: 1.5rem;
+    transition: all 0.4s ease;
   }
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: #f9f9f9;
     margin-bottom: 1rem;
+    font-weight: 700;
   }
 
   p {
-    font-size: 1rem;
+    font-size: 1.05rem;
     color: #d1d1d1;
-    line-height: 1.5;
-  }
-
-  .badge {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: #3D6AC1;
-    color: #fff;
-    font-size: 0.8rem;
-    font-weight: bold;
-    padding: 0.3rem 0.7rem;
-    border-radius: 12px;
+    line-height: 1.6;
   }
 
   &:hover {
-    border-image: linear-gradient(45deg, #3D6AC1, #105773) 1;
+    border: 2px solid #3D6AC1;
+    box-shadow: 0px 12px 50px rgba(61, 106, 193, 0.3);
+    transform: translateY(-8px);
 
     svg {
-      transform: scale(1.2) rotate(5deg);
+      transform: scale(1.15) rotate(5deg);
+      color: #5A8FD4;
     }
   }
 `
@@ -102,21 +95,30 @@ const ServiceCard = styled(motion.div)`
 // Botão principal de chamada para ação (CTA)
 const CTAButton = styled(motion.a)`
   display: inline-block;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border-radius: 40px;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border-radius: 50px;
   cursor: pointer;
-  background: #3D6AC1;
+  background: linear-gradient(135deg, #3D6AC1, #5A8FD4);
   color: #fff;
   text-decoration: none;
   margin-top: 3rem;
+  box-shadow: 0 4px 20px rgba(61, 106, 193, 0.4);
+  transition: all 0.4s ease;
 
-  position: relative; /* Para controlar camada */
-  z-index: 10; /* Garante que fique acima dos cards */
+  position: relative;
+  z-index: 10;
 
   &:hover {
-    background: #E0Af46;
+    background: linear-gradient(135deg, #5A8FD4, #3D6AC1);
+    box-shadow: 0 6px 30px rgba(61, 106, 193, 0.6);
+    transform: translateY(-2px);
+  }
+  
+  @media (max-width: 768px) {
+    padding: 1rem 2rem;
+    font-size: 1rem;
   }
 `
 
@@ -131,39 +133,33 @@ const Services = () => {
         <SectionTitle>Serviços</SectionTitle>
         <ServicesGrid>
           <ServiceCard
-            
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <span className="badge">Premium</span>
             <FaCode />
             <h3>Desenvolvimento</h3>
             <p>Sites, sistemas e soluções sob medida para levar o seu negócio ao próximo nível digital.</p>
           </ServiceCard>
 
           <ServiceCard
-            
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <span className="badge">Premium</span>
             <FaPaintBrush />
             <h3>Design</h3>
             <p>Identidade visual e interfaces atraentes para destacar a sua marca e gerar conexão com seu público.</p>
           </ServiceCard>
 
           <ServiceCard
-            
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
             viewport={{ once: true }}
           >
-            <span className="badge">Premium</span>
             <FaBullhorn />
             <h3>Marketing Digital</h3>
             <p>Estratégias e conteúdo para aumentar o alcance e melhorar as suas vendas online.</p>

@@ -8,10 +8,16 @@ const Nav = styled.nav`
   height: 80px;
   background: linear-gradient(100deg, #01060D 10%, #050A30 100%);
   display: flex;
-  justify-content: space-between; /* mudar para space-between para dar espaço para hamburger */
+  justify-content: space-between;
   align-items: center;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
   z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  
+  @media (max-width: 768px) {
+    padding: 0 1.5rem;
+  }
 `
 
 const Logo = styled.img`
@@ -39,6 +45,8 @@ const Menu = styled.ul`
       color: #E0Af46;
     }
 
+    transition: color 0.3s ease;
+    
     &::after {
       content: '';
       position: absolute;
@@ -52,6 +60,10 @@ const Menu = styled.ul`
       transition: transform 0.3s ease;
     }
 
+    &:hover {
+      color: ${({ theme }) => theme.secondary};
+    }
+    
     &:hover::after {
       transform: scaleX(1);
       transform-origin: left;

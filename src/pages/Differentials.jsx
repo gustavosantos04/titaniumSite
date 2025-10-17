@@ -53,29 +53,42 @@ const FeaturesGrid = styled.div`
 
 const FeatureCard = styled(motion.div)`
   flex: 1;
-  max-width: 300px;
+  max-width: 320px;
   background: #fff;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0px 4px 30px rgba(0,0,0,0.1);
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0px 8px 40px rgba(0,0,0,0.12);
   text-align: center;
+  transition: all 0.4s ease;
+  border: 2px solid transparent;
 
   svg {
-    font-size: 3rem;
+    font-size: 3.5rem;
     color: #3D6AC1;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
   }
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: #050A30;
     margin-bottom: 1rem;
+    font-weight: 700;
   }
 
   p {
-    font-size: 1rem;
+    font-size: 1.05rem;
     color: #333;
-    line-height: 1.5;
+    line-height: 1.6;
+  }
+  
+  &:hover {
+    border: 2px solid #3D6AC1;
+    box-shadow: 0px 12px 50px rgba(61, 106, 193, 0.2);
+    
+    svg {
+      color: #5A8FD4;
+    }
   }
 `
 
@@ -95,22 +108,26 @@ const Reflection = styled.div`
 
 const CTAButton = styled(motion.a)`
   display: inline-block;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border-radius: 40px;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border-radius: 50px;
   cursor: pointer;
-  background: #3D6AC1;
+  background: linear-gradient(135deg, #3D6AC1, #5A8FD4);
   color: #fff;
   text-decoration: none;
+  box-shadow: 0 4px 20px rgba(61, 106, 193, 0.4);
+  transition: all 0.4s ease;
 
   &:hover {
-    background: #050A30;
+    background: linear-gradient(135deg, #5A8FD4, #3D6AC1);
+    box-shadow: 0 6px 30px rgba(61, 106, 193, 0.6);
+    transform: translateY(-2px);
   }
 
   @media (max-width: 768px) {
     font-size: 1rem;
-    padding: 0.8rem 1.5rem;
+    padding: 1rem 2rem;
   }
 `
 
