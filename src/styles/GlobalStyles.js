@@ -9,9 +9,9 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: ${({ theme }) => theme.background};
-    color: ${({ theme }) => theme.text};
-    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg);
+    color: var(--cream);
+    font-family: 'Inter', system-ui, sans-serif;
   }
 
   body, html, #root {

@@ -1,0 +1,180 @@
+.portfolio {
+  background: #050a30;
+  padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 6vw, 6rem);
+  overflow: hidden;
+}
+
+.portfolio-intro {
+  max-width: 600px;
+  margin: 0 auto 5rem;
+  text-align: center;
+}
+
+.portfolio-sub {
+  font-size: 1rem;
+  color: rgba(252, 248, 232, 0.5);
+  line-height: 1.8;
+  margin-top: 1rem;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto 4rem;
+  align-items: start;
+}
+
+.pcard {
+  opacity: 0;
+  transform: translateY(40px) rotate(var(--rot)) scale(var(--scale, 1));
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease;
+  cursor: pointer;
+  border-radius: 10px;
+  will-change: transform, opacity;
+}
+
+.pcard--left {
+  margin-top: 2rem;
+}
+
+.pcard--right {
+  margin-top: 0;
+}
+
+.pcard:nth-child(3n + 2) {
+  margin-top: 4rem;
+}
+
+.card-visible {
+  opacity: 1;
+  transform: translateY(0) rotate(var(--rot)) scale(var(--scale, 1));
+}
+
+.pcard:hover {
+  transform: translateY(-8px) rotate(0deg) scale(1.03) !important;
+  z-index: 10;
+}
+
+.pcard-img-wrap {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: #1a2444;
+  border: 1px solid rgba(61, 106, 193, 0.2);
+  transition: border-color 0.3s ease;
+}
+
+.pcard:hover .pcard-img-wrap {
+  border-color: var(--accent);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--accent);
+}
+
+.pcard-image-tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5, 10, 48, 0.22) 0%, rgba(5, 10, 48, 0.05) 60%, transparent 100%);
+  pointer-events: none;
+}
+
+.pcard-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pcard:hover .pcard-img {
+  transform: scale(1.06);
+}
+
+.pcard-img-placeholder {
+  background: linear-gradient(135deg, #1a2444 0%, #2a468b 100%);
+  min-height: 200px;
+}
+
+.pcard-resultado-pill {
+  position: absolute;
+  left: 0.9rem;
+  bottom: 0.9rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(5, 10, 48, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+  transition: transform 0.35s ease, border-color 0.35s ease;
+}
+
+.pcard:hover .pcard-resultado-pill {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.pcard-info {
+  padding: 1rem 0.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.pcard-cat {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(252, 248, 232, 0.35);
+}
+
+.pcard-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fcf8e8;
+}
+
+.pcard-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(252, 248, 232, 0.52);
+}
+
+.portfolio-cta-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+@media (max-width: 900px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .pcard--left,
+  .pcard--right,
+  .pcard:nth-child(3n + 2) {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 580px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .pcard {
+    --rot: 0deg !important;
+  }
+}

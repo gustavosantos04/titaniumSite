@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { FaCode, FaPaintBrush, FaBullhorn } from 'react-icons/fa'
 
 // Seção geral dos serviços com fundo e leve padrão visual
@@ -124,9 +124,6 @@ const CTAButton = styled(motion.a)`
 
 const Services = () => {
   // Animação para movimentar os cards conforme o scroll
-  const { scrollYProgress } = useScroll()
-  const yRange = useTransform(scrollYProgress, [0, 1], [-100, 100])
-
   return (
     <ServicesSection id="servicos">
       <Container>
