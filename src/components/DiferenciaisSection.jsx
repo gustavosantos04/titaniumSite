@@ -61,8 +61,9 @@ const Inner = styled.div`
 
 const Label = styled.p`
   margin-bottom: 20px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
@@ -72,7 +73,7 @@ const Title = styled(BlurText).attrs({ as: 'h2' })`
   margin-bottom: 18px;
   font-family: var(--font-display);
   font-size: clamp(36px, 5vw, 64px);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.02;
   letter-spacing: -0.045em;
   color: var(--cream);
@@ -182,7 +183,7 @@ const Cta = styled.a`
   color: var(--bg);
   font-family: var(--font-display);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   transition: background 200ms ease;

@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     background-color: var(--bg);
     color: var(--cream);
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--font-body);
   }
 
   body, html, #root {

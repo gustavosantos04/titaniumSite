@@ -76,7 +76,7 @@
 }
 
 .sv-year {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 800;
   color: #fcf8e8;
@@ -88,7 +88,7 @@
   letter-spacing: 0.1em;
   color: rgba(252, 248, 232, 0.35);
   text-transform: uppercase;
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
 }
 
 .sv-stat {
@@ -100,7 +100,7 @@
 }
 
 .sv-stat strong {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-size: 1.2rem;
   font-weight: 700;
   color: #e0af46;
@@ -140,7 +140,7 @@
 }
 
 .sv-badge-gold {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
   color: #e0af46;
@@ -194,7 +194,7 @@
   border-radius: 999px;
   background: rgba(224, 175, 70, 0.1);
   border: 1px solid rgba(224, 175, 70, 0.2);
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -202,7 +202,7 @@
 }
 
 .sobre-editorial-title {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-size: clamp(1.5rem, 3vw, 2.2rem);
   font-weight: 700;
   line-height: 1.08;
@@ -234,7 +234,7 @@
 }
 
 .sobre-stat-card strong {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-size: 1.7rem;
   font-weight: 700;
   color: #e0af46;
@@ -285,7 +285,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-weight: 700;
   font-size: 14px;
   color: #3d6ac1;
@@ -293,7 +293,7 @@
 
 .mvv-titulo {
   display: block;
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-size: 0.9rem;
   font-weight: 700;
   color: #fcf8e8;

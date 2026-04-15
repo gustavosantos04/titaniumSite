@@ -46,8 +46,9 @@
 }
 
 .footer-tagline {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-size: 1.5rem;
+  font-weight: 600;
   color: #e0af46;
   margin: 1rem 0 0.5rem;
 }
@@ -72,8 +73,9 @@
 }
 
 .col-title {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-body);
   font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: rgba(252, 248, 232, 0.3);

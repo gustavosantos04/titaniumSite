@@ -31,8 +31,9 @@ const Header = styled.div`
 
 const StatsLabel = styled.p`
   margin-bottom: 12px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
@@ -42,7 +43,7 @@ const StatsTitle = styled(BlurText).attrs({ as: 'h2' })`
   margin-bottom: 16px;
   font-family: var(--font-display);
   font-size: clamp(28px, 4vw, 42px);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--cream);
 `

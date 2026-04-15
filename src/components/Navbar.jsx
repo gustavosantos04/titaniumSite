@@ -116,9 +116,9 @@ const NavItem = styled.li`
 const NavButton = styled.button`
   position: relative;
   color: ${({ $active }) => ($active ? 'var(--gold)' : 'var(--cream-60)')};
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-size: 14px;
-  font-weight: ${({ $active }) => ($active ? 600 : 500)};
+  font-weight: 500;
   letter-spacing: 0.02em;
   transition: color 0.25s ease;
 
@@ -204,7 +204,7 @@ const MobileLink = styled.button`
   color: ${({ $active }) => ($active ? 'var(--gold)' : 'var(--cream)')};
   font-family: var(--font-display);
   font-size: 28px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.03em;
 `
 
