@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import './HeroSection.css'
 
 const MOBILE_BREAKPOINT = 768
+const LOOP_BLEND_START_SECONDS = 0.45
+const LOOP_FADE_OUT_MS = 240
+const LOOP_SETTLE_MS = 520
 
 // Coloque o vídeo em /public/videos/hero-light-beam.mp4
 const HERO_VIDEO_SRC = '/videos/hero-light-beam.mp4'
@@ -17,9 +20,11 @@ const subtitles = [
 
 export default function HeroSection() {
   const subtitleTimeoutRef = useRef(0)
-  const videoRef = useRef(null)
-  const videoRestartTimeoutRef = useRef(0)
-  const videoFadeResetTimeoutRef = useRef(0)
+  const videoRefs = useRef([null, null])
+  const loopSwapTimeoutRef = useRef(0)
+  const loopResetTimeoutRef = useRef(0)
+  const activeVideoIndexRef = useRef(0)
+  const isLoopTransitioningRef = useRef(false)
   const [subtitleIdx, setSubtitleIdx] = useState(0)
   const [visible, setVisible] = useState(true)
   const [useVideo, setUseVideo] = useState(() => {
@@ -33,10 +38,14 @@ export default function HeroSection() {
 
     return !(isMobile || isTouchDevice || prefersReducedMotion)
   })
-  const [videoReady, setVideoReady] = useState(false)
+  const [readyVideos, setReadyVideos] = useState([false, false])
   const [videoFailed, setVideoFailed] = useState(false)
-  const [videoRestarting, setVideoRestarting] = useState(false)
+  const [activeVideoIndex, setActiveVideoIndex] = useState(0)
   const [videoLoopFade, setVideoLoopFade] = useState(false)
+
+  useEffect(() => {
+    activeVideoIndexRef.current = activeVideoIndex
+  }, [activeVideoIndex])
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -74,74 +83,89 @@ export default function HeroSection() {
 
   useEffect(() => (
     () => {
-      window.clearTimeout(videoRestartTimeoutRef.current)
-      window.clearTimeout(videoFadeResetTimeoutRef.current)
+      window.clearInterval(subtitleTimeoutRef.current)
+      window.clearTimeout(loopSwapTimeoutRef.current)
+      window.clearTimeout(loopResetTimeoutRef.current)
     }
   ), [])
 
-  const shouldHideFallback = videoReady && useVideo && !videoFailed && !videoRestarting
-
-  const restartVideoSmoothly = () => {
-    const video = videoRef.current
-
-    if (!video) {
-      return
-    }
-
-    setVideoRestarting(true)
-    setVideoLoopFade(true)
-    window.clearTimeout(videoRestartTimeoutRef.current)
-    window.clearTimeout(videoFadeResetTimeoutRef.current)
-
-    videoRestartTimeoutRef.current = window.setTimeout(() => {
-      video.currentTime = 0
-
-      const playPromise = video.play()
-
-      if (playPromise && typeof playPromise.then === 'function') {
-        playPromise.catch(() => {
-          setVideoFailed(true)
-        })
+  const handleVideoReady = (index) => {
+    setReadyVideos((current) => {
+      if (current[index]) {
+        return current
       }
-    }, 260)
+
+      const next = [...current]
+      next[index] = true
+      return next
+    })
   }
 
-  const handleVideoPlaying = () => {
-    setVideoReady(true)
-
-    if (videoRestarting) {
-      window.clearTimeout(videoRestartTimeoutRef.current)
-      videoRestartTimeoutRef.current = window.setTimeout(() => {
-        setVideoRestarting(false)
-      }, 180)
-    }
-
-    if (videoLoopFade) {
-      window.clearTimeout(videoFadeResetTimeoutRef.current)
-      videoFadeResetTimeoutRef.current = window.setTimeout(() => {
-        setVideoLoopFade(false)
-      }, 260)
-    }
-  }
-
-  const handleVideoTimeUpdate = () => {
-    const video = videoRef.current
-
-    if (!video || !Number.isFinite(video.duration) || video.duration <= 0) {
+  const startLoopTransition = () => {
+    if (isLoopTransitioningRef.current) {
       return
     }
 
-    const remainingTime = video.duration - video.currentTime
+    const currentIndex = activeVideoIndexRef.current
+    const nextIndex = currentIndex === 0 ? 1 : 0
+    const currentVideo = videoRefs.current[currentIndex]
+    const nextVideo = videoRefs.current[nextIndex]
 
-    if (remainingTime <= 0.35) {
-      setVideoLoopFade(true)
+    if (!currentVideo || !nextVideo) {
       return
     }
 
-    if (!videoRestarting && remainingTime > 0.6 && videoLoopFade) {
+    isLoopTransitioningRef.current = true
+    setVideoLoopFade(true)
+    window.clearTimeout(loopSwapTimeoutRef.current)
+    window.clearTimeout(loopResetTimeoutRef.current)
+
+    nextVideo.currentTime = 0
+    nextVideo.muted = true
+
+    const playPromise = nextVideo.play()
+
+    if (playPromise && typeof playPromise.then === 'function') {
+      playPromise.catch(() => {
+        setVideoFailed(true)
+      })
+    }
+
+    loopSwapTimeoutRef.current = window.setTimeout(() => {
+      setActiveVideoIndex(nextIndex)
+    }, LOOP_FADE_OUT_MS)
+
+    loopResetTimeoutRef.current = window.setTimeout(() => {
+      currentVideo.pause()
+      currentVideo.currentTime = 0
       setVideoLoopFade(false)
+      isLoopTransitioningRef.current = false
+    }, LOOP_SETTLE_MS)
+  }
+
+  const handleVideoTimeUpdate = (index) => {
+    if (index !== activeVideoIndexRef.current || isLoopTransitioningRef.current) {
+      return
+    }
+
+    const activeVideo = videoRefs.current[index]
+
+    if (!activeVideo || !Number.isFinite(activeVideo.duration) || activeVideo.duration <= 0) {
+      return
+    }
+
+    const remainingTime = activeVideo.duration - activeVideo.currentTime
+
+    if (remainingTime <= LOOP_BLEND_START_SECONDS) {
+      startLoopTransition()
     }
   }
+
+  const handleVideoError = () => {
+    setVideoFailed(true)
+  }
+
+  const shouldHideFallback = useVideo && !videoFailed && readyVideos.some(Boolean)
 
   return (
     <section
@@ -160,22 +184,28 @@ export default function HeroSection() {
         />
 
         {useVideo && !videoFailed ? (
-          <video
-            ref={videoRef}
-            className={`hero-video ${videoReady ? 'is-ready' : ''}`}
-            src={HERO_VIDEO_SRC}
-            poster={HERO_FALLBACK_SRC}
-            autoPlay
-            muted
-            playsInline
-            preload="auto"
-            onCanPlay={() => setVideoReady(true)}
-            onPlaying={handleVideoPlaying}
-            onTimeUpdate={handleVideoTimeUpdate}
-            onEnded={restartVideoSmoothly}
-            onError={() => setVideoFailed(true)}
-            aria-hidden="true"
-          />
+          <>
+            {[0, 1].map((index) => (
+              <video
+                key={index}
+                ref={(node) => {
+                  videoRefs.current[index] = node
+                }}
+                className={`hero-video ${readyVideos[index] ? 'is-ready' : ''} ${activeVideoIndex === index ? 'is-active' : 'is-idle'}`}
+                src={HERO_VIDEO_SRC}
+                poster={HERO_FALLBACK_SRC}
+                autoPlay={index === 0}
+                muted
+                playsInline
+                preload="auto"
+                onCanPlay={() => handleVideoReady(index)}
+                onPlaying={() => handleVideoReady(index)}
+                onTimeUpdate={() => handleVideoTimeUpdate(index)}
+                onError={handleVideoError}
+                aria-hidden="true"
+              />
+            ))}
+          </>
         ) : null}
 
         <div className="hero-backdrop" aria-hidden="true" />

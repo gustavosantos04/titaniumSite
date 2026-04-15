@@ -44,11 +44,19 @@
   transform: translateZ(0);
   backface-visibility: hidden;
   will-change: opacity;
-  transition: opacity 0.7s ease;
+  transition: opacity 0.52s ease;
 }
 
 .hero-video.is-ready {
+  opacity: 0;
+}
+
+.hero-video.is-ready.is-active {
   opacity: 1;
+}
+
+.hero-video.is-ready.is-idle {
+  opacity: 0;
 }
 
 .hero-backdrop {
@@ -66,11 +74,11 @@
   inset: 0;
   z-index: 2;
   background:
-    radial-gradient(circle at 50% 42%, rgba(2, 6, 18, 0.16), transparent 34%),
-    linear-gradient(180deg, rgba(2, 6, 18, 0.02) 0%, rgba(2, 6, 18, 0.28) 100%);
+    radial-gradient(circle at 50% 42%, rgba(2, 6, 18, 0.22), transparent 34%),
+    linear-gradient(180deg, rgba(2, 6, 18, 0.04) 0%, rgba(2, 6, 18, 0.38) 100%);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.28s ease;
+  transition: opacity 0.34s ease;
 }
 
 .hero-loop-fade.is-active {
