@@ -11,60 +11,60 @@ const services = [
     id: 1,
     num: '01',
     titulo: 'Sites & Landing Pages',
-    desc: 'Sites institucionais, landing pages e portfólios que convertem visitantes em clientes reais. Design premium, carregamento rápido e otimizados para SEO.',
+    desc: 'Sites institucionais, landing pages e portfólios com estrutura clara, carregamento rápido e foco em apresentação profissional.',
     icon: <IconSite />,
     tags: ['React', 'Next.js', 'Vite', 'SEO'],
-    destaque: '+180% de conversão média',
+    destaque: 'Clareza de proposta',
     cor: '#3D6AC1',
   },
   {
     id: 2,
     num: '02',
     titulo: 'Sistemas Web & SaaS',
-    desc: 'Plataformas completas com dashboards, autenticação, banco de dados e lógica de negócio. Do MVP ao produto escalável.',
+    desc: 'Plataformas com dashboards, autenticação, banco de dados e lógica de negócio pensadas para organizar a operação e apoiar crescimento.',
     icon: <IconSaas />,
     tags: ['Node.js', 'PostgreSQL', 'API REST', 'React'],
-    destaque: '3x mais produtividade',
+    destaque: 'Estrutura para evoluir',
     cor: '#E0AF46',
   },
   {
     id: 3,
     num: '03',
     titulo: 'E-commerce',
-    desc: 'Lojas virtuais com carrinho inteligente, integração de pagamento, gestão de estoque e experiência de compra que fideliza.',
+    desc: 'Lojas virtuais com jornada simples, integração de pagamento, gestão de estoque e experiência pensada para facilitar a compra.',
     icon: <IconEcommerce />,
     tags: ['Stripe', 'Firebase', 'Next.js', 'WooCommerce'],
-    destaque: 'R$ 40k em 30 dias',
+    destaque: 'Compra sem fricção',
     cor: '#3D6AC1',
   },
   {
     id: 4,
     num: '04',
     titulo: 'Conteúdo para Instagram',
-    desc: 'Estratégia editorial, criação de posts, reels e stories alinhados à identidade da sua marca para crescer com consistência.',
+    desc: 'Estratégia editorial, criação de posts, reels e stories alinhados à identidade da marca para comunicar com mais consistência.',
     icon: <IconInstagram />,
     tags: ['Design', 'Copywriting', 'Reels', 'Stories'],
-    destaque: '+5k seguidores/mês',
+    destaque: 'Consistência de marca',
     cor: '#E1306C',
   },
   {
     id: 5,
     num: '05',
     titulo: 'Sistemas de Gestão',
-    desc: 'CRM, ERP e painéis administrativos personalizados que automatizam processos e eliminam retrabalho operacional.',
+    desc: 'CRM, ERP e painéis administrativos personalizados para reduzir retrabalho e dar mais previsibilidade à rotina.',
     icon: <IconSistema />,
     tags: ['React', 'MongoDB', 'Charts', 'Relatórios'],
-    destaque: '-60% tempo administrativo',
+    destaque: 'Rotina mais organizada',
     cor: '#E0AF46',
   },
   {
     id: 6,
     num: '06',
     titulo: 'Automação',
-    desc: 'Fluxos automáticos de WhatsApp, e-mail marketing, agendamento e integração entre ferramentas do seu negócio.',
+    desc: 'Fluxos automáticos de WhatsApp, e-mail, agendamento e integração entre ferramentas para deixar processos mais leves.',
     icon: <IconAutomacao />,
     tags: ['N8N', 'WhatsApp API', 'Zapier', 'Make'],
-    destaque: '24h trabalhando por você',
+    destaque: 'Processos mais leves',
     cor: '#3D6AC1',
   },
 ]
@@ -119,12 +119,12 @@ export default function ServicesSection() {
   }, [])
 
   return (
-    <section className="services" id="servicos" ref={sectionRef} aria-label="Serviços">
+    <section className="services" ref={sectionRef} aria-label="Serviços">
       <div className="services-sticky">
         <div className="services-header">
           <span className="section-eyebrow">Serviços</span>
           <BlurText
-            text="Tudo que seu negócio precisa no digital"
+            text="Soluções digitais"
             as="h2"
             className="section-heading"
             staggerDelay={0.06}

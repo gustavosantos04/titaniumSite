@@ -8,7 +8,6 @@ import WhatsAppButton from './components/WhatsAppButton'
 import './styles/globals.css'
 
 const ServicesSection = lazy(() => import('./components/ServicesSection'))
-const StatsSection = lazy(() => import('./components/StatsSection'))
 const PortfolioSection = lazy(() => import('./components/PortfolioSection'))
 const SobreSection = lazy(() => import('./components/SobreSection'))
 const DiferenciaisSection = lazy(() => import('./components/DiferenciaisSection'))
@@ -88,7 +87,9 @@ export default function App() {
             <section id="servicos" aria-label="Serviços">
               <ServicesSection />
             </section>
-            <StatsSection />
+            <section id="depoimentos" aria-label="Depoimentos">
+              <TestimonialsSection />
+            </section>
             <section id="portfolio" aria-label="Portfólio">
               <PortfolioSection />
             </section>
@@ -97,9 +98,6 @@ export default function App() {
             </section>
             <section id="diferenciais" aria-label="Diferenciais">
               <DiferenciaisSection />
-            </section>
-            <section id="depoimentos" aria-label="Depoimentos">
-              <TestimonialsSection />
             </section>
             <section id="contato" aria-label="Contato">
               <ContatoSection />

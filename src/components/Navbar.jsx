@@ -50,47 +50,47 @@ const Bar = styled.nav`
 const Brand = styled.a`
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   position: relative;
   z-index: 210;
 `
 
 const BrandIconWrap = styled.span`
-  width: 42px;
-  height: 42px;
+  width: 52px;
+  height: 52px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  border-radius: 14px;
   background: linear-gradient(135deg, rgba(61, 106, 193, 0.22), rgba(61, 106, 193, 0.05));
   border: 1px solid rgba(61, 106, 193, 0.18);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2);
   flex-shrink: 0;
 
   @media (max-width: 767px) {
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
   }
 `
 
 const BrandIcon = styled.img`
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   filter: drop-shadow(0 0 14px rgba(61, 106, 193, 0.5));
 
   @media (max-width: 767px) {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
   }
 `
 
 const BrandLogo = styled.img`
-  height: 34px;
+  height: 42px;
   width: auto;
 
   @media (max-width: 767px) {
-    height: 28px;
+    height: 32px;
   }
 `
 
@@ -142,8 +142,13 @@ const Hamburger = styled.button`
   position: relative;
   z-index: 210;
   display: none;
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  border: 1px solid rgba(152, 203, 255, 0.12);
+  background: rgba(8, 18, 40, 0.44);
+  backdrop-filter: blur(16px);
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
 
   @media (max-width: 767px) {
     display: inline-flex;
@@ -151,6 +156,12 @@ const Hamburger = styled.button`
     justify-content: center;
     align-items: center;
     gap: 5px;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+    background: rgba(8, 18, 40, 0.68);
+    border-color: rgba(224, 175, 70, 0.16);
   }
 
   span {
@@ -181,31 +192,60 @@ const MobileOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 84px 20px 24px;
   background:
-    radial-gradient(circle at top, rgba(61, 106, 193, 0.18), transparent 34%),
-    rgba(5, 10, 48, 0.98);
-  transform: translateX(${({ $open }) => ($open ? '0' : '-100%')});
+    radial-gradient(circle at top, rgba(61, 106, 193, 0.2), transparent 34%),
+    rgba(5, 10, 48, 0.88);
+  backdrop-filter: blur(22px);
+  transform: translateY(${({ $open }) => ($open ? '0' : '-12px')});
   opacity: ${({ $open }) => ($open ? 1 : 0)};
   pointer-events: ${({ $open }) => ($open ? 'auto' : 'none')};
-  transition: transform 380ms ${easeOut}, opacity 380ms ease;
+  transition: transform 320ms ${easeOut}, opacity 320ms ease;
 
   @media (min-width: 768px) {
     display: none;
   }
 `
 
+const MobilePanel = styled.div`
+  width: min(100%, 420px);
+  padding: 1rem;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
+    rgba(4, 10, 28, 0.94);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+  transform: ${({ $open }) => ($open ? 'scale(1)' : 'scale(0.96)')};
+  transition: transform 320ms ${easeOut};
+`
+
 const MobileList = styled.ul`
   display: grid;
-  gap: 20px;
+  gap: 12px;
   text-align: center;
 `
 
 const MobileLink = styled.button`
+  width: 100%;
+  min-height: 64px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid
+    ${({ $active }) => ($active ? 'rgba(224, 175, 70, 0.24)' : 'rgba(255, 255, 255, 0.05)')};
+  background: ${({ $active }) =>
+    $active ? 'rgba(224, 175, 70, 0.08)' : 'rgba(255, 255, 255, 0.02)'};
   color: ${({ $active }) => ($active ? 'var(--gold)' : 'var(--cream)')};
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: clamp(1.35rem, 5vw, 1.8rem);
   font-weight: 500;
   letter-spacing: -0.03em;
+  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba(224, 175, 70, 0.22);
+  }
 `
 
 export default function Navbar() {
@@ -265,6 +305,20 @@ export default function Navbar() {
       document.body.style.overflow = ''
     }
   }, [menuOpen])
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 768) {
+        setMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('resize', onResize)
+
+    return () => {
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
 
   const scrollToSection = (id) => {
     const target = document.getElementById(id)
@@ -330,20 +384,22 @@ export default function Navbar() {
         </Hamburger>
       </Bar>
 
-      <MobileOverlay $open={menuOpen}>
-        <MobileList>
-          {NAV_ITEMS.map((item) => (
-            <li key={item.id}>
-              <MobileLink
-                type="button"
-                $active={active === item.id}
-                onClick={() => handleLinkClick(item.id)}
-              >
-                {item.label}
-              </MobileLink>
-            </li>
-          ))}
-        </MobileList>
+      <MobileOverlay $open={menuOpen} onClick={() => setMenuOpen(false)}>
+        <MobilePanel $open={menuOpen} onClick={(event) => event.stopPropagation()}>
+          <MobileList>
+            {NAV_ITEMS.map((item) => (
+              <li key={item.id}>
+                <MobileLink
+                  type="button"
+                  $active={active === item.id}
+                  onClick={() => handleLinkClick(item.id)}
+                >
+                  {item.label}
+                </MobileLink>
+              </li>
+            ))}
+          </MobileList>
+        </MobilePanel>
       </MobileOverlay>
     </Shell>
   )

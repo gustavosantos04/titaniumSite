@@ -17,7 +17,7 @@ const links = {
     { label: 'Depoimentos', href: '#depoimentos' },
   ],
   contato: [
-    { label: 'WhatsApp', href: buildWhatsappLink('Olá, quero construir meu legado com a Titanium!') },
+    { label: 'WhatsApp', href: buildWhatsappLink('Olá, quero conhecer melhor a Titanium.') },
     { label: 'E-mail', href: `mailto:${contactEmail}` },
     { label: 'Instagram', href: instagramUrl },
   ],
@@ -33,14 +33,14 @@ export default function Footer() {
           <div>
             <div className="footer-brand">
               <span className="footer-brand-mark" aria-hidden="true">
-                <img src={iconSrc} alt="" />
+                <img src={iconSrc} alt="" loading="lazy" decoding="async" />
               </span>
-              <img className="footer-brand-logo" src={logoSrc} alt={siteName} />
+              <img className="footer-brand-logo" src={logoSrc} alt={siteName} loading="lazy" decoding="async" />
             </div>
 
             <p className="footer-tagline">Criamos Legado.</p>
             <p className="footer-desc">
-              Transformamos a visão de empreendedores em sistemas e sites que geram resultado real.
+              Sites, sistemas e conteúdo com direção clara para negócios em fase de crescimento.
             </p>
           </div>
 

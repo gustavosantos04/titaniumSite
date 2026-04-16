@@ -1,62 +1,56 @@
 import { useEffect, useRef } from 'react'
 import BlurText from './BlurText'
+import aaauImg from '../assets/portfolio/aaau.png'
+import ngfRacingImg from '../assets/portfolio/ngf-racing.png'
 import './PortfolioSection.css'
 
 const projects = [
   {
     id: 1,
-    titulo: 'Bella Estética',
-    categoria: 'Site + Agendamento',
-    descricao: 'Landing page com identidade premium, prova social e fluxo de agendamento integrado para converter visitas em consultas.',
-    resultado: '+180% agendamentos',
-    img: '/assets/portfolio/bella-estetica.jpg',
-    cor: '#3D6AC1',
-    rot: -3,
-    scale: 1.02,
+    titulo: 'NGF Racing',
+    categoria: 'Site institucional',
+    descricao: 'Apresentação da marca com foco em posicionamento, clareza de serviço e um caminho de contato mais direto.',
+    destaque: 'Aumento de Leads',
+    img: ngfRacingImg,
+    cor: '#a10c0c',
+    rot: -2,
+    scale: 1.01,
   },
   {
     id: 2,
-    titulo: 'TechFlow',
-    categoria: 'Plataforma SaaS',
-    descricao: 'Produto com dashboard operacional, acompanhamento em tempo real e arquitetura preparada para crescimento do time e da receita.',
-    resultado: '3x produtividade',
-    img: '/assets/portfolio/techflow.jpg',
+    titulo: 'AAAU',
+    categoria: 'Site institucional',
+    descricao: 'Apresentação da atletica com foco em posicionamento,  e um contato mais direto com os estudantes.',
+    destaque: 'Atrair mais membros',
+    img: aaauImg,
+    link: 'https://exemplo.com/techflow',
     cor: '#E0AF46',
     rot: 2,
-    scale: 0.98,
+    scale: 0.99,
   },
   {
     id: 3,
     titulo: 'Gourmet & Cia',
-    categoria: 'E-commerce + Delivery',
-    descricao: 'Experiência de compra pensada para mobile, com navegação simples, pedidos rápidos e foco em repetição de compra.',
-    resultado: 'R$ 40k em 30 dias',
+    categoria: 'E-commerce',
+    descricao: 'Experiência de compra pensada para mobile, com navegação simples e fluxo de pedido mais direto.',
+    destaque: 'Compra simplificada',
     img: '/assets/portfolio/gourmet.jpg',
+    link: 'https://exemplo.com/gourmet',
     cor: '#2A468B',
-    rot: -1.5,
+    rot: -1,
     scale: 1,
   },
   {
     id: 4,
     titulo: 'Clínica Vida',
-    categoria: 'Sistema de Gestão',
-    descricao: 'Painel interno para organizar atendimento, consultas e rotinas administrativas com mais previsibilidade e menos retrabalho.',
-    resultado: '-60% tempo admin.',
+    categoria: 'Sistema interno',
+    descricao: 'Painel para organizar atendimento e tarefas administrativas com mais visibilidade para a equipe.',
+    destaque: 'Rotina mais organizada',
     img: '/assets/portfolio/clinica.jpg',
+    link: 'https://exemplo.com/clinica-vida',
     cor: '#3D6AC1',
-    rot: 3,
-    scale: 1.03,
-  },
-  {
-    id: 5,
-    titulo: 'ImóvelPrime',
-    categoria: 'Portal Imobiliário',
-    descricao: 'Portal com busca refinada, destaque para imóveis estratégicos e estrutura pensada para captação e qualificação de leads.',
-    resultado: '2x leads qualificados',
-    img: '/assets/portfolio/imovel.jpg',
-    cor: '#E0AF46',
-    rot: -2,
-    scale: 0.97,
+    rot: 1.5,
+    scale: 1.02,
   },
 ]
 
@@ -90,11 +84,11 @@ export default function PortfolioSection() {
         <p className="section-eyebrow">Portfólio</p>
         <BlurText
           as="h2"
-          text="Projetos com direção criativa, execução técnica e resultado real."
+          text="Projetos em destaque"
           className="section-heading"
         />
         <BlurText
-          text="As fotos dos projetos devem ser colocadas em public/assets/portfolio. Os textos e descrições ficam no array projects deste componente."
+          text="Selecionamos poucos projetos para destacar o tipo de problema que gostamos de resolver e a forma como organizamos cada entrega."
           className="portfolio-sub"
         />
       </div>
@@ -106,7 +100,7 @@ export default function PortfolioSection() {
             ref={(element) => {
               cardsRef.current[index] = element
             }}
-            className={`pcard pcard--${index % 2 === 0 ? 'left' : 'right'}`}
+            className="pcard"
             style={{
               '--rot': `${project.rot}deg`,
               '--accent': project.cor,
@@ -117,14 +111,15 @@ export default function PortfolioSection() {
               <img
                 className="pcard-img"
                 src={project.img}
-                alt={project.titulo}
+                alt={`${project.titulo} - ${project.categoria}`}
                 loading="lazy"
+                decoding="async"
                 onError={(event) => {
                   event.currentTarget.style.display = 'none'
                   event.currentTarget.parentNode.classList.add('pcard-img-placeholder')
                 }}
               />
-              <span className="pcard-resultado-pill">{project.resultado}</span>
+              <span className="pcard-resultado-pill">{project.destaque}</span>
               <div className="pcard-image-tint" aria-hidden="true" />
             </div>
 
@@ -132,6 +127,14 @@ export default function PortfolioSection() {
               <span className="pcard-cat">{project.categoria}</span>
               <h3 className="pcard-title">{project.titulo}</h3>
               <p className="pcard-desc">{project.descricao}</p>
+              <a
+                className="pcard-link"
+                href={project.link}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Ver projeto
+              </a>
             </div>
           </article>
         ))}

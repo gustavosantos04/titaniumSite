@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './WhatsAppButton.css'
 
-const WHATSAPP = import.meta.env.VITE_WHATSAPP || '5500000000000'
+const WHATSAPP = import.meta.env.VITE_WHATSAPP || '5551995988984'
 
 export default function WhatsAppButton() {
   const [visible, setVisible] = useState(false)

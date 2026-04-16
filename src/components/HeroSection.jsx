@@ -13,9 +13,9 @@ const HERO_VIDEO_SRC = '/videos/hero-light-beam.mp4'
 const HERO_FALLBACK_SRC = '/frames/frame 1.jpg'
 
 const subtitles = [
-  'Criamos sites que vendem.',
-  'Construímos sistemas que escalam.',
-  'Geramos conteúdo que converte.',
+  'Criamos sites com foco em conversão.',
+  'Construímos sistemas pensados para a rotina do negócio.',
+  'Desenhamos conteúdo com direção e consistência.',
 ]
 
 export default function HeroSection() {

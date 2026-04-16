@@ -10,17 +10,17 @@ const depoimentos = [
     cargo: 'Proprietária',
     empresa: 'Bella Estética',
     texto:
-      'A Titanium transformou completamente meu negócio. Em 60 dias, triplicamos os agendamentos e hoje tenho um sistema que trabalha por mim 24 horas.',
+      'A conversa foi objetiva desde o início. O site saiu com uma linguagem muito mais alinhada à marca e hoje consigo apresentar melhor o meu trabalho.',
     inicial: 'MC',
     cor: '#3D6AC1',
   },
   {
     id: 2,
     nome: 'Rafael Mendes',
-    cargo: 'CEO',
-    empresa: 'TechFlow Consultoria',
+    cargo: 'Consultor',
+    empresa: 'TechFlow',
     texto:
-      'Profissionalismo impecável. Entregaram antes do prazo, com qualidade acima do esperado. O suporte pós-entrega é diferencial: são parceiros de verdade.',
+      'Gostei da clareza no processo. Sempre soube o que estava sendo feito, o que ainda dependia de mim e como a entrega final seria usada no dia a dia.',
     inicial: 'RM',
     cor: '#E0AF46',
   },
@@ -30,7 +30,7 @@ const depoimentos = [
     cargo: 'Diretora',
     empresa: 'Clínica Vida',
     texto:
-      'Nosso sistema antigo era um pesadelo. A equipe da Titanium entendeu cada detalhe do nosso processo e criou algo que realmente funciona para a saúde.',
+      'O projeto trouxe mais organização para a nossa rotina. Não foi só uma mudança visual: a estrutura ficou mais funcional para a equipe e para os pacientes.',
     inicial: 'BO',
     cor: '#2A468B',
   },
@@ -40,7 +40,7 @@ const depoimentos = [
     cargo: 'Fundador',
     empresa: 'ImóvelPrime',
     texto:
-      'ROI em menos de 3 meses. O portal que desenvolveram se tornou nossa principal fonte de leads qualificados. Vale cada centavo investido.',
+      'O ponto forte foi a parceria. A Titanium ouviu, ajustou rápido e entregou uma base digital muito mais coerente com a fase atual da empresa.',
     inicial: 'LF',
     cor: '#3D6AC1',
   },
@@ -83,11 +83,11 @@ export default function TestimonialsSection() {
         <div className="section-divider anim-hidden anim-delay-1" />
         <BlurText
           as="h2"
-          text="O que nossos clientes dizem"
+          text="O que dizem da Titanium"
           className="testimonials-title anim-hidden anim-delay-2"
         />
         <BlurText
-          text="Projetos memoráveis deixam resultados mensuráveis e relações duradouras. É isso que os clientes relatam depois da entrega."
+          text="Relatos de clientes sobre processo, clareza e entrega."
           className="testimonials-intro anim-hidden anim-delay-3"
         />
 

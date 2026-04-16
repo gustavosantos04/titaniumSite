@@ -9,17 +9,17 @@ const valores = [
   {
     sigla: 'M',
     titulo: 'Missão',
-    texto: 'Transformar a visão de empreendedores em produtos digitais que geram resultado real e duradouro.',
+    texto: 'Ajudar negócios a organizar sua presença digital com mais clareza, direção e consistência.',
   },
   {
     sigla: 'V',
     titulo: 'Visão',
-    texto: 'Ser a agência de referência para pequenos e médios empreendedores que querem deixar um legado digital.',
+    texto: 'Crescer de forma sustentável ao lado de marcas que valorizam trabalho bem feito e comunicação direta.',
   },
   {
     sigla: 'V',
     titulo: 'Valores',
-    texto: 'Compromisso, excelência técnica, comunicação honesta e entrega que supera o combinado.',
+    texto: 'Honestidade no escopo, cuidado na execução, proximidade no processo e melhoria contínua a cada entrega.',
   },
 ]
 
@@ -39,43 +39,43 @@ export default function SobreSection() {
               <div className="sv-ring sv-ring--3" aria-hidden="true" />
 
               <div className="sv-center">
-                <span className="sv-year">2020</span>
-                <span className="sv-label">fundada</span>
+                <span className="sv-year">1:1</span>
+                <span className="sv-label">parceria</span>
               </div>
 
               <div className="sv-stat sv-stat--tl">
-                <strong>+50</strong>
-                <span>projetos</span>
+                <strong>escuta</strong>
+                <span>ativa</span>
               </div>
 
               <div className="sv-stat sv-stat--br">
-                <strong>100%</strong>
-                <span>satisfação</span>
+                <strong>entrega</strong>
+                <span>clara</span>
               </div>
 
               <div className="sv-badge">
-                <span>Criamos</span>
-                <span className="sv-badge-gold">Legado</span>
+                <span>com</span>
+                <span className="sv-badge-gold">método</span>
               </div>
             </div>
           ) : (
             <div className="sobre-editorial anim-hidden-left">
               <div className="sobre-editorial-card">
-                <span className="sobre-editorial-tag">Desde 2020</span>
-                <h3 className="sobre-editorial-title">Criamos presença digital com base estratégica, estética forte e entrega consistente.</h3>
+                <span className="sobre-editorial-tag">Operação enxuta</span>
+                <h3 className="sobre-editorial-title">Criamos presença digital com direção estratégica, estética forte e execução consistente.</h3>
                 <p className="sobre-editorial-text">
-                  Menos efeito solto, mais estrutura. A proposta aqui é simples: transformar ideia em operação digital clara, elegante e lucrativa.
+                  Menos efeito solto, mais estrutura. A proposta aqui é transformar ideia em presença digital clara, funcional e alinhada ao momento da marca.
                 </p>
               </div>
 
               <div className="sobre-editorial-stats">
                 <div className="sobre-stat-card">
-                  <strong>+50</strong>
-                  <span>projetos entregues</span>
+                  <strong>escuta</strong>
+                  <span>antes de qualquer entrega</span>
                 </div>
                 <div className="sobre-stat-card">
-                  <strong>100%</strong>
-                  <span>foco em resultado</span>
+                  <strong>clareza</strong>
+                  <span>do briefing ao lançamento</span>
                 </div>
               </div>
             </div>
@@ -87,11 +87,11 @@ export default function SobreSection() {
             <p className="section-eyebrow">Sobre nós</p>
             <BlurText
               as="h2"
-              text="Tecnologia, direção criativa e parceria para construir marcas digitais memoráveis."
+              text="Presença com direção"
               className="section-heading"
             />
             <BlurText
-              text="Desenhamos experiências, sites e sistemas com um olhar editorial: estética forte, estrutura clara e foco absoluto em resultado. Cada projeto nasce para durar, crescer e reforçar a presença de quem empreende."
+              text="Somos uma agência jovem, com operação enxuta e acompanhamento próximo. Entramos em cada projeto para entender o contexto, organizar prioridades e entregar algo coerente com o momento do negócio."
               className="sobre-desc"
             />
 
@@ -116,7 +116,7 @@ export default function SobreSection() {
         <p className="section-eyebrow">Como trabalhamos</p>
         <BlurText
           as="h2"
-          text="Um processo direto, estratégico e construído para dar clareza do primeiro briefing ao lançamento."
+          text="Nosso processo"
           className="section-heading"
         />
         <Timeline />
