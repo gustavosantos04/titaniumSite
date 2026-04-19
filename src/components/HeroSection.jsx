@@ -4,6 +4,8 @@ import './HeroSection.css'
 const MOBILE_BREAKPOINT = 768
 const HERO_VIDEO_SRC = '/videos/hero-light-beam.mp4'
 const HERO_FALLBACK_SRC = '/frames/hero-poster.jpg'
+const LOOP_SEAM_THRESHOLD = 0.35
+const LOOP_SEAM_RELEASE_MS = 180
 
 const subtitles = [
   'Criamos sites com foco em conversão.',
@@ -28,12 +30,14 @@ function canAutoplayHeroVideo() {
 export default function HeroSection({ id }) {
   const subtitleTimeoutRef = useRef(0)
   const idleTimerRef = useRef(0)
+  const loopReleaseTimeoutRef = useRef(0)
   const [subtitleIdx, setSubtitleIdx] = useState(0)
   const [visible, setVisible] = useState(true)
   const [useVideo, setUseVideo] = useState(() => canAutoplayHeroVideo())
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false)
   const [videoReady, setVideoReady] = useState(false)
   const [videoFailed, setVideoFailed] = useState(false)
+  const [videoLoopTransition, setVideoLoopTransition] = useState(false)
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -84,6 +88,7 @@ export default function HeroSection({ id }) {
     if (!useVideo) {
       setShouldLoadVideo(false)
       setVideoReady(false)
+      setVideoLoopTransition(false)
       return undefined
     }
 
@@ -108,8 +113,53 @@ export default function HeroSection({ id }) {
     () => {
       window.clearTimeout(subtitleTimeoutRef.current)
       window.clearTimeout(idleTimerRef.current)
+      window.clearTimeout(loopReleaseTimeoutRef.current)
     }
   ), [])
+
+  const releaseLoopTransition = () => {
+    window.clearTimeout(loopReleaseTimeoutRef.current)
+    loopReleaseTimeoutRef.current = window.setTimeout(() => {
+      setVideoLoopTransition(false)
+    }, LOOP_SEAM_RELEASE_MS)
+  }
+
+  const handleVideoTimeUpdate = (event) => {
+    const { duration, currentTime, ended } = event.currentTarget
+
+    if (!Number.isFinite(duration) || duration <= 0 || ended) {
+      return
+    }
+
+    if (duration - currentTime <= LOOP_SEAM_THRESHOLD && !videoLoopTransition) {
+      setVideoLoopTransition(true)
+    }
+  }
+
+  const handleVideoEnded = async (event) => {
+    const video = event.currentTarget
+
+    setVideoLoopTransition(true)
+
+    try {
+      video.currentTime = 0
+      const playPromise = video.play()
+
+      if (playPromise?.catch) {
+        await playPromise.catch(() => {})
+      }
+    } finally {
+      releaseLoopTransition()
+    }
+  }
+
+  const handleVideoPlaying = () => {
+    setVideoReady(true)
+
+    if (videoLoopTransition) {
+      releaseLoopTransition()
+    }
+  }
 
   const shouldHideFallback = useVideo && shouldLoadVideo && !videoFailed && videoReady
 
@@ -131,17 +181,22 @@ export default function HeroSection({ id }) {
             src={HERO_VIDEO_SRC}
             poster={HERO_FALLBACK_SRC}
             autoPlay
-            loop
             muted
             playsInline
             preload="metadata"
             onCanPlay={() => setVideoReady(true)}
-            onPlaying={() => setVideoReady(true)}
+            onPlaying={handleVideoPlaying}
+            onTimeUpdate={handleVideoTimeUpdate}
+            onEnded={handleVideoEnded}
             onError={() => setVideoFailed(true)}
             aria-hidden="true"
           />
         ) : null}
 
+        <div
+          className={`hero-video-seam ${videoLoopTransition ? 'is-visible' : ''}`}
+          aria-hidden="true"
+        />
         <div className="hero-backdrop" aria-hidden="true" />
 
         <div className="hero-copy">

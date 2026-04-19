@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import styled from 'styled-components'
 import iconSrc from '../assets/icone-t.png'
 import logoSrc from '../assets/logo-titanium.png'
@@ -15,35 +16,63 @@ const NAV_ITEMS = [
 ]
 
 const easeOut = 'cubic-bezier(0.22, 1, 0.36, 1)'
+const FOCUSABLE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(', ')
 
 const Shell = styled.header`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 1400;
   transform: translateY(${({ $entered }) => ($entered ? '0' : '-100%')});
   opacity: ${({ $entered }) => ($entered ? 1 : 0)};
   transition: transform 700ms ${easeOut} 200ms, opacity 700ms ${easeOut} 200ms;
 `
 
 const Bar = styled.nav`
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: ${({ $scrolled }) => ($scrolled ? '16px 80px' : '24px 80px')};
-  background: ${({ $scrolled }) => ($scrolled ? 'rgba(5, 10, 48, 0.9)' : 'transparent')};
-  backdrop-filter: ${({ $scrolled }) => ($scrolled ? 'blur(18px)' : 'none')};
-  border-bottom: 1px solid ${({ $scrolled }) => ($scrolled ? 'var(--blue-border)' : 'transparent')};
-  transition: padding 0.35s ease, background 0.35s ease, border-color 0.35s ease;
+  padding: ${({ $scrolled, $menuOpen }) =>
+    $menuOpen ? '16px 80px' : $scrolled ? '16px 80px' : '24px 80px'};
+  background: ${({ $scrolled, $menuOpen }) => {
+    if ($menuOpen) {
+      return 'rgba(4, 10, 28, 0.96)'
+    }
+
+    return $scrolled ? 'rgba(5, 10, 48, 0.9)' : 'transparent'
+  }};
+  backdrop-filter: ${({ $scrolled, $menuOpen }) =>
+    $scrolled || $menuOpen ? 'blur(18px)' : 'none'};
+  border-bottom: 1px solid
+    ${({ $scrolled, $menuOpen }) =>
+      $scrolled || $menuOpen ? 'rgba(152, 203, 255, 0.12)' : 'transparent'};
+  box-shadow: ${({ $menuOpen }) =>
+    $menuOpen ? '0 18px 44px rgba(0, 0, 0, 0.28)' : 'none'};
+  transition:
+    padding 0.35s ease,
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
 
   @media (max-width: 1023px) {
-    padding: ${({ $scrolled }) => ($scrolled ? '16px 40px' : '22px 40px')};
+    padding: ${({ $scrolled, $menuOpen }) =>
+      $menuOpen ? '16px 40px' : $scrolled ? '16px 40px' : '22px 40px'};
   }
 
   @media (max-width: 767px) {
-    padding: ${({ $scrolled }) => ($scrolled ? '14px 20px' : '18px 20px')};
+    padding: ${({ $scrolled, $menuOpen }) =>
+      $menuOpen ? '14px 20px' : $scrolled ? '14px 20px' : '18px 20px'};
   }
 `
 
@@ -52,7 +81,7 @@ const Brand = styled.a`
   align-items: center;
   gap: 16px;
   position: relative;
-  z-index: 210;
+  z-index: 3;
 `
 
 const BrandIconWrap = styled.span`
@@ -140,15 +169,19 @@ const NavButton = styled.button`
 
 const Hamburger = styled.button`
   position: relative;
-  z-index: 210;
+  z-index: 3;
   display: none;
   width: 46px;
   height: 46px;
   border-radius: 14px;
   border: 1px solid rgba(152, 203, 255, 0.12);
-  background: rgba(8, 18, 40, 0.44);
+  background: ${({ $open }) => ($open ? 'rgba(8, 18, 40, 0.9)' : 'rgba(8, 18, 40, 0.56)')};
   backdrop-filter: blur(16px);
-  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 
   @media (max-width: 767px) {
     display: inline-flex;
@@ -160,8 +193,9 @@ const Hamburger = styled.button`
 
   &:hover {
     transform: translateY(-1px);
-    background: rgba(8, 18, 40, 0.68);
-    border-color: rgba(224, 175, 70, 0.16);
+    background: rgba(8, 18, 40, 0.88);
+    border-color: rgba(224, 175, 70, 0.18);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
   }
 
   span {
@@ -188,65 +222,216 @@ const Hamburger = styled.button`
 const MobileOverlay = styled.div`
   position: fixed;
   inset: 0;
-  z-index: 200;
+  z-index: 1390;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 84px 20px 24px;
+  justify-content: flex-end;
+  align-items: stretch;
+  padding:
+    calc(env(safe-area-inset-top, 0px) + 74px)
+    20px
+    calc(env(safe-area-inset-bottom, 0px) + 18px);
   background:
-    radial-gradient(circle at top, rgba(61, 106, 193, 0.2), transparent 34%),
-    rgba(5, 10, 48, 0.88);
-  backdrop-filter: blur(22px);
-  transform: translateY(${({ $open }) => ($open ? '0' : '-12px')});
+    linear-gradient(180deg, rgba(2, 6, 18, 0.34) 0%, rgba(2, 6, 18, 0.76) 16%, rgba(2, 6, 18, 0.92) 100%),
+    radial-gradient(circle at top right, rgba(61, 106, 193, 0.22), transparent 36%),
+    rgba(3, 8, 24, 0.8);
+  backdrop-filter: blur(10px);
   opacity: ${({ $open }) => ($open ? 1 : 0)};
+  visibility: ${({ $open }) => ($open ? 'visible' : 'hidden')};
   pointer-events: ${({ $open }) => ($open ? 'auto' : 'none')};
-  transition: transform 320ms ${easeOut}, opacity 320ms ease;
+  transition:
+    opacity 280ms ease,
+    visibility 0s linear ${({ $open }) => ($open ? '0s' : '280ms')};
 
   @media (min-width: 768px) {
     display: none;
   }
+
+  @media (max-width: 420px) {
+    padding:
+      calc(env(safe-area-inset-top, 0px) + 72px)
+      12px
+      calc(env(safe-area-inset-bottom, 0px) + 12px);
+  }
 `
 
 const MobilePanel = styled.div`
-  width: min(100%, 420px);
-  padding: 1rem;
+  width: min(88vw, 380px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
   border-radius: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(152, 203, 255, 0.12);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
-    rgba(4, 10, 28, 0.94);
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
-  transform: ${({ $open }) => ($open ? 'scale(1)' : 'scale(0.96)')};
+    linear-gradient(180deg, rgba(12, 19, 43, 0.98), rgba(4, 10, 28, 0.98)),
+    rgba(4, 10, 28, 0.98);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.46);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  transform: ${({ $open }) => ($open ? 'translateX(0)' : 'translateX(28px)')};
   transition: transform 320ms ${easeOut};
+
+  @media (max-width: 420px) {
+    width: 100%;
+    padding: 16px;
+    border-radius: 24px;
+  }
+`
+
+const MobileHeader = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+`
+
+const MobileHeaderText = styled.div`
+  display: grid;
+  gap: 6px;
+`
+
+const MobileEyebrow = styled.span`
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(224, 175, 70, 0.88);
+`
+
+const MobileTitle = styled.strong`
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--cream);
+`
+
+const MobileSubtitle = styled.p`
+  max-width: 24ch;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: rgba(252, 248, 232, 0.62);
+`
+
+const MobileCloseButton = styled.button`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(152, 203, 255, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    transform 0.22s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(224, 175, 70, 0.2);
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--cream);
+  }
+
+  &::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
 `
 
 const MobileList = styled.ul`
   display: grid;
-  gap: 12px;
-  text-align: center;
+  gap: 10px;
+  margin-top: 18px;
+`
+
+const MobileItem = styled.li`
+  min-width: 0;
 `
 
 const MobileLink = styled.button`
   width: 100%;
-  min-height: 64px;
-  padding: 16px 18px;
-  border-radius: 18px;
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: 20px;
   border: 1px solid
-    ${({ $active }) => ($active ? 'rgba(224, 175, 70, 0.24)' : 'rgba(255, 255, 255, 0.05)')};
+    ${({ $active }) => ($active ? 'rgba(224, 175, 70, 0.28)' : 'rgba(255, 255, 255, 0.06)')};
   background: ${({ $active }) =>
-    $active ? 'rgba(224, 175, 70, 0.08)' : 'rgba(255, 255, 255, 0.02)'};
+    $active ? 'rgba(224, 175, 70, 0.08)' : 'rgba(255, 255, 255, 0.025)'};
   color: ${({ $active }) => ($active ? 'var(--gold)' : 'var(--cream)')};
   font-family: var(--font-display);
-  font-size: clamp(1.35rem, 5vw, 1.8rem);
+  font-size: clamp(1.05rem, 4.6vw, 1.28rem);
   font-weight: 500;
-  letter-spacing: -0.03em;
-  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-align: left;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease,
+    color 0.22s ease;
 
-  &:hover {
+  &::after {
+    content: '›';
+    font-size: 1.35rem;
+    line-height: 1;
+    color: ${({ $active }) => ($active ? 'rgba(224, 175, 70, 0.92)' : 'rgba(252, 248, 232, 0.4)')};
+    transition: transform 0.22s ease, color 0.22s ease;
+  }
+
+  &:hover,
+  &:focus-visible {
     transform: translateY(-2px);
-    border-color: rgba(224, 175, 70, 0.22);
+    border-color: rgba(224, 175, 70, 0.24);
+    background: rgba(255, 255, 255, 0.045);
+    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.24);
+    color: var(--cream);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: translateX(2px);
+    color: rgba(224, 175, 70, 0.92);
   }
 `
+
+function getFocusableElements(container) {
+  if (!container) {
+    return []
+  }
+
+  return Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
+    (element) =>
+      !element.hasAttribute('disabled') &&
+      element.getAttribute('aria-hidden') !== 'true' &&
+      element.tabIndex !== -1,
+  )
+}
 
 export default function Navbar() {
   const [active, setActive] = useState('inicio')
@@ -254,8 +439,10 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [entered, setEntered] = useState(false)
   const menuButtonRef = useRef(null)
+  const mobilePanelRef = useRef(null)
+  const mobileFirstLinkRef = useRef(null)
   const wasMenuOpenRef = useRef(false)
-  const mobileMenuId = 'mobile-navigation'
+  const mobileMenuId = useId()
 
   useEffect(() => {
     const timer = window.setTimeout(() => setEntered(true), 16)
@@ -303,7 +490,8 @@ export default function Navbar() {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    document.documentElement.classList.toggle('menu-open', menuOpen)
+    document.body.classList.toggle('menu-open', menuOpen)
 
     if (wasMenuOpenRef.current && !menuOpen) {
       menuButtonRef.current?.focus()
@@ -312,7 +500,8 @@ export default function Navbar() {
     wasMenuOpenRef.current = menuOpen
 
     return () => {
-      document.body.style.overflow = ''
+      document.documentElement.classList.remove('menu-open')
+      document.body.classList.remove('menu-open')
     }
   }, [menuOpen])
 
@@ -335,15 +524,47 @@ export default function Navbar() {
       return undefined
     }
 
+    const focusTimer = window.setTimeout(() => {
+      mobileFirstLinkRef.current?.focus()
+    }, 40)
+
     const onKeyDown = (event) => {
       if (event.key === 'Escape') {
+        event.preventDefault()
         setMenuOpen(false)
+        return
+      }
+
+      if (event.key !== 'Tab') {
+        return
+      }
+
+      const focusableElements = getFocusableElements(mobilePanelRef.current)
+
+      if (!focusableElements.length) {
+        event.preventDefault()
+        mobilePanelRef.current?.focus()
+        return
+      }
+
+      const firstElement = focusableElements[0]
+      const lastElement = focusableElements[focusableElements.length - 1]
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault()
+        lastElement.focus()
+      }
+
+      if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault()
+        firstElement.focus()
       }
     }
 
     window.addEventListener('keydown', onKeyDown)
 
     return () => {
+      window.clearTimeout(focusTimer)
       window.removeEventListener('keydown', onKeyDown)
     }
   }, [menuOpen])
@@ -365,12 +586,62 @@ export default function Navbar() {
 
   const handleLinkClick = (id) => {
     scrollToSection(id)
-    document.body.style.overflow = ''
   }
+
+  const mobileMenu = (
+    <MobileOverlay
+      $open={menuOpen}
+      aria-hidden={!menuOpen}
+      onClick={() => setMenuOpen(false)}
+    >
+      <MobilePanel
+        id={mobileMenuId}
+        ref={mobilePanelRef}
+        $open={menuOpen}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu mobile"
+        tabIndex="-1"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <MobileHeader>
+          <MobileHeaderText>
+            <MobileEyebrow>Menu principal</MobileEyebrow>
+            <MobileTitle>Navegação</MobileTitle>
+            <MobileSubtitle>Escolha uma seção e continue a navegação sem distrações.</MobileSubtitle>
+          </MobileHeaderText>
+
+          <MobileCloseButton
+            type="button"
+            aria-label="Fechar menu"
+            onClick={() => setMenuOpen(false)}
+          />
+        </MobileHeader>
+
+        <nav aria-label="Navegação mobile">
+          <MobileList>
+            {NAV_ITEMS.map((item, index) => (
+              <MobileItem key={item.id}>
+                <MobileLink
+                  ref={index === 0 ? mobileFirstLinkRef : undefined}
+                  type="button"
+                  $active={active === item.id}
+                  onClick={() => handleLinkClick(item.id)}
+                  aria-current={active === item.id ? 'location' : undefined}
+                >
+                  <span>{item.label}</span>
+                </MobileLink>
+              </MobileItem>
+            ))}
+          </MobileList>
+        </nav>
+      </MobilePanel>
+    </MobileOverlay>
+  )
 
   return (
     <Shell $entered={entered}>
-      <Bar $scrolled={scrolled} aria-label="Navegação principal">
+      <Bar $scrolled={scrolled} $menuOpen={menuOpen} aria-label="Navegação principal">
         <Brand
           href="#inicio"
           onClick={(event) => {
@@ -415,31 +686,7 @@ export default function Navbar() {
         </Hamburger>
       </Bar>
 
-      <MobileOverlay $open={menuOpen} aria-hidden={!menuOpen} onClick={() => setMenuOpen(false)}>
-        <MobilePanel
-          id={mobileMenuId}
-          $open={menuOpen}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Menu mobile"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <MobileList>
-            {NAV_ITEMS.map((item) => (
-              <li key={item.id}>
-                <MobileLink
-                  type="button"
-                  $active={active === item.id}
-                  onClick={() => handleLinkClick(item.id)}
-                  aria-current={active === item.id ? 'location' : undefined}
-                >
-                  {item.label}
-                </MobileLink>
-              </li>
-            ))}
-          </MobileList>
-        </MobilePanel>
-      </MobileOverlay>
+      {typeof document !== 'undefined' ? createPortal(mobileMenu, document.body) : null}
     </Shell>
   )
 }

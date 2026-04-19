@@ -51,10 +51,26 @@
   opacity: 1;
 }
 
-.hero-backdrop {
+.hero-video-seam {
   position: absolute;
   inset: 0;
   z-index: 1;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 50% 36%, rgba(61, 106, 193, 0.08), transparent 34%),
+    linear-gradient(180deg, rgba(2, 6, 18, 0.08) 0%, rgba(2, 6, 18, 0.22) 100%);
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.hero-video-seam.is-visible {
+  opacity: 1;
+}
+
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   background:
     linear-gradient(180deg, rgba(2, 6, 18, 0.2) 0%, rgba(2, 6, 18, 0.52) 52%, rgba(2, 6, 18, 0.8) 100%),
     radial-gradient(circle at 50% 45%, rgba(115, 190, 255, 0.12), transparent 32%);
@@ -302,6 +318,11 @@
   }
 
   .hero-subtitle {
+    transition: none;
+  }
+
+  .hero-video,
+  .hero-video-seam {
     transition: none;
   }
 
