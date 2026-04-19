@@ -21,7 +21,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2.2rem;
-  max-width: 980px;
+  max-width: 1080px;
   margin: 0 auto 4rem;
   align-items: start;
 }
@@ -33,17 +33,12 @@
     opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.35s ease;
-  cursor: pointer;
   border-radius: 10px;
   will-change: transform, opacity;
 }
 
 .pcard:nth-child(2) {
   margin-top: 2.5rem;
-}
-
-.pcard:nth-child(3) {
-  margin-top: -0.5rem;
 }
 
 .card-visible {
@@ -157,6 +152,10 @@
   color: var(--accent);
 }
 
+.pcard-link--muted {
+  color: rgba(252, 248, 232, 0.5);
+}
+
 .portfolio-cta-wrap {
   display: flex;
   justify-content: center;
@@ -169,15 +168,18 @@
     gap: 2rem;
   }
 
-  .pcard:nth-child(2),
-  .pcard:nth-child(3) {
+  .pcard:nth-child(2) {
     margin-top: 0;
   }
 }
 
 @media (max-width: 580px) {
+  .portfolio {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   .portfolio-grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import iconSrc from '../assets/icone-t.png'
 import logoSrc from '../assets/logo-titanium.png'
@@ -253,6 +253,9 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [entered, setEntered] = useState(false)
+  const menuButtonRef = useRef(null)
+  const wasMenuOpenRef = useRef(false)
+  const mobileMenuId = 'mobile-navigation'
 
   useEffect(() => {
     const timer = window.setTimeout(() => setEntered(true), 16)
@@ -301,6 +304,13 @@ export default function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
+
+    if (wasMenuOpenRef.current && !menuOpen) {
+      menuButtonRef.current?.focus()
+    }
+
+    wasMenuOpenRef.current = menuOpen
+
     return () => {
       document.body.style.overflow = ''
     }
@@ -319,6 +329,24 @@ export default function Navbar() {
       window.removeEventListener('resize', onResize)
     }
   }, [])
+
+  useEffect(() => {
+    if (!menuOpen) {
+      return undefined
+    }
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [menuOpen])
 
   const scrollToSection = (id) => {
     const target = document.getElementById(id)
@@ -342,7 +370,7 @@ export default function Navbar() {
 
   return (
     <Shell $entered={entered}>
-      <Bar $scrolled={scrolled}>
+      <Bar $scrolled={scrolled} aria-label="Navegação principal">
         <Brand
           href="#inicio"
           onClick={(event) => {
@@ -352,9 +380,9 @@ export default function Navbar() {
           aria-label={siteName}
         >
           <BrandIconWrap aria-hidden="true">
-            <BrandIcon src={iconSrc} alt="" />
+            <BrandIcon src={iconSrc} alt="" width="32" height="32" decoding="async" />
           </BrandIconWrap>
-          <BrandLogo src={logoSrc} alt={siteName} />
+          <BrandLogo src={logoSrc} alt={siteName} width="159" height="42" decoding="async" />
         </Brand>
 
         <NavLinks>
@@ -364,6 +392,7 @@ export default function Navbar() {
                 type="button"
                 $active={active === item.id}
                 onClick={() => handleLinkClick(item.id)}
+                aria-current={active === item.id ? 'location' : undefined}
               >
                 {item.label}
               </NavButton>
@@ -372,10 +401,12 @@ export default function Navbar() {
         </NavLinks>
 
         <Hamburger
+          ref={menuButtonRef}
           type="button"
           $open={menuOpen}
           aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={menuOpen}
+          aria-controls={mobileMenuId}
           onClick={() => setMenuOpen((current) => !current)}
         >
           <span />
@@ -384,8 +415,15 @@ export default function Navbar() {
         </Hamburger>
       </Bar>
 
-      <MobileOverlay $open={menuOpen} onClick={() => setMenuOpen(false)}>
-        <MobilePanel $open={menuOpen} onClick={(event) => event.stopPropagation()}>
+      <MobileOverlay $open={menuOpen} aria-hidden={!menuOpen} onClick={() => setMenuOpen(false)}>
+        <MobilePanel
+          id={mobileMenuId}
+          $open={menuOpen}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu mobile"
+          onClick={(event) => event.stopPropagation()}
+        >
           <MobileList>
             {NAV_ITEMS.map((item) => (
               <li key={item.id}>
@@ -393,6 +431,7 @@ export default function Navbar() {
                   type="button"
                   $active={active === item.id}
                   onClick={() => handleLinkClick(item.id)}
+                  aria-current={active === item.id ? 'location' : undefined}
                 >
                   {item.label}
                 </MobileLink>

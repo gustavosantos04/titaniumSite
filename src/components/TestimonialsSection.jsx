@@ -46,7 +46,7 @@ const depoimentos = [
   },
 ]
 
-export default function TestimonialsSection() {
+export default function TestimonialsSection({ id }) {
   const sectionRef = useScrollAnimation()
   const [active, setActive] = useState(0)
   const [animating, setAnimating] = useState(false)
@@ -65,6 +65,10 @@ export default function TestimonialsSection() {
   }
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined
+    }
+
     intervalRef.current = window.setInterval(() => {
       setActive((prev) => (prev + 1) % depoimentos.length)
     }, 5000)
@@ -77,12 +81,18 @@ export default function TestimonialsSection() {
   const depoimento = depoimentos[active]
 
   return (
-    <section className="testimonials-section section-padding" ref={sectionRef} aria-label="Depoimentos">
+    <section
+      className="testimonials-section section-padding"
+      id={id}
+      ref={sectionRef}
+      aria-labelledby="testimonials-heading"
+    >
       <div className="testimonials-inner">
         <p className="testimonials-label section-eyebrow anim-hidden">Depoimentos</p>
         <div className="section-divider anim-hidden anim-delay-1" />
         <BlurText
           as="h2"
+          id="testimonials-heading"
           text="O que dizem da Titanium"
           className="testimonials-title anim-hidden anim-delay-2"
         />
@@ -91,7 +101,10 @@ export default function TestimonialsSection() {
           className="testimonials-intro anim-hidden anim-delay-3"
         />
 
-        <article className={`testimonial-card anim-hidden anim-delay-4 ${animating ? 'fade-out' : 'fade-in'}`}>
+        <article
+          className={`testimonial-card anim-hidden anim-delay-4 ${animating ? 'fade-out' : 'fade-in'}`}
+          aria-live="polite"
+        >
           <div className="quote-mark">"</div>
           <p className="testimonial-text">{depoimento.texto}</p>
 
@@ -128,6 +141,7 @@ export default function TestimonialsSection() {
               type="button"
               className={`nav-chip${active === index ? ' active' : ''}`}
               onClick={() => goTo(index)}
+              aria-pressed={active === index}
             >
               <span className="chip-avatar" style={{ background: item.cor }}>
                 {item.inicial}

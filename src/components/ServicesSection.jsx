@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import BlurText from './BlurText'
 import {
   IconSite, IconSistema, IconInstagram,
@@ -69,83 +69,145 @@ const services = [
   },
 ]
 
-export default function ServicesSection() {
+export default function ServicesSection({ id }) {
+  const baseId = useId()
   const sectionRef = useRef(null)
-  const itemsRef = useRef([])
-  const activeRef = useRef(0)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [isDesktop, setIsDesktop] = useState(() => (
+    typeof window !== 'undefined' ? window.innerWidth >= 769 : true
+  ))
+  const serviceIds = useMemo(
+    () => services.map((service) => ({
+      tabId: `${baseId}-${service.id}-tab`,
+      panelId: `${baseId}-${service.id}-panel`,
+    })),
+    [baseId],
+  )
 
   useEffect(() => {
-    const section = sectionRef.current
+    const mediaQuery = window.matchMedia('(min-width: 769px)')
+    const updateViewport = () => setIsDesktop(mediaQuery.matches)
 
-    if (!section) {
+    updateViewport()
+    mediaQuery.addEventListener('change', updateViewport)
+
+    return () => mediaQuery.removeEventListener('change', updateViewport)
+  }, [])
+
+  useEffect(() => {
+    if (!isDesktop) {
       return undefined
     }
 
-    const isMobile = window.innerWidth < 768
+    let frameId = 0
 
-    if (isMobile) {
-      return undefined
-    }
-
-    const activate = (index) => {
-      document.getElementById(`srv-panel-${activeRef.current}`)?.classList.remove('panel-active')
-      itemsRef.current[activeRef.current]?.classList.remove('srv-active')
-      itemsRef.current[index]?.classList.add('srv-active')
-      document.getElementById(`srv-panel-${index}`)?.classList.add('panel-active')
-      activeRef.current = index
-    }
-
-    activate(0)
-
-    const handleScroll = () => {
-      const rect = section.getBoundingClientRect()
-      const total = section.offsetHeight - window.innerHeight
-
-      if (rect.top > 0 || rect.bottom < window.innerHeight || total <= 0) {
+    const onScroll = () => {
+      if (frameId) {
         return
       }
 
-      const progress = Math.abs(rect.top) / total
-      const index = Math.min(Math.floor(progress * services.length), services.length - 1)
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0
 
-      if (index !== activeRef.current) {
-        activate(index)
-      }
+        const section = sectionRef.current
+
+        if (!section) {
+          return
+        }
+
+        const rect = section.getBoundingClientRect()
+        const total = section.offsetHeight - window.innerHeight
+
+        if (rect.top > 0 || rect.bottom < window.innerHeight || total <= 0) {
+          return
+        }
+
+        const progress = Math.abs(rect.top) / total
+        const nextIndex = Math.min(Math.floor(progress * services.length), services.length - 1)
+        setActiveIndex((current) => (current === nextIndex ? current : nextIndex))
+      })
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
 
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    return () => {
+      window.cancelAnimationFrame(frameId)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [isDesktop])
 
   return (
-    <section className="services" ref={sectionRef} aria-label="Serviços">
+    <section ref={sectionRef} className="services" id={id} aria-labelledby={`${baseId}-heading`}>
       <div className="services-sticky">
         <div className="services-header">
           <span className="section-eyebrow">Serviços</span>
           <BlurText
             text="Soluções digitais"
             as="h2"
+            id={`${baseId}-heading`}
             className="section-heading"
             staggerDelay={0.06}
           />
         </div>
 
         <div className="services-body">
-          <div className="services-list">
+          <div
+            className="services-list"
+            role="tablist"
+            aria-orientation="vertical"
+            aria-label="Lista de serviços"
+          >
             {services.map((service, index) => (
-              <div
+              <button
                 key={service.id}
-                ref={(element) => {
-                  itemsRef.current[index] = element
-                }}
-                className="srv-item"
+                type="button"
+                className={`srv-item${activeIndex === index ? ' srv-active' : ''}`}
                 style={{ '--srv-cor': service.cor }}
+                role="tab"
+                id={serviceIds[index].tabId}
+                aria-selected={activeIndex === index}
+                aria-controls={serviceIds[index].panelId}
+                tabIndex={activeIndex === index ? 0 : -1}
+                onClick={() => setActiveIndex(index)}
+                onFocus={() => setActiveIndex(index)}
+                onMouseEnter={() => {
+                  if (isDesktop) {
+                    setActiveIndex(index)
+                  }
+                }}
+                onKeyDown={(event) => {
+                  if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+                    return
+                  }
+
+                  event.preventDefault()
+
+                  if (event.key === 'Home') {
+                    setActiveIndex(0)
+                    document.getElementById(serviceIds[0].tabId)?.focus()
+                    return
+                  }
+
+                  if (event.key === 'End') {
+                    const lastIndex = services.length - 1
+                    setActiveIndex(lastIndex)
+                    document.getElementById(serviceIds[lastIndex].tabId)?.focus()
+                    return
+                  }
+
+                  const direction = event.key === 'ArrowDown' ? 1 : -1
+                  const nextIndex = (index + direction + services.length) % services.length
+                  setActiveIndex(nextIndex)
+                  document.getElementById(serviceIds[nextIndex].tabId)?.focus()
+                }}
               >
                 <span className="srv-num">{service.num}</span>
                 <div className="srv-icon">{service.icon}</div>
                 <h3 className="srv-titulo">{service.titulo}</h3>
-              </div>
+              </button>
             ))}
           </div>
 
@@ -153,9 +215,13 @@ export default function ServicesSection() {
             {services.map((service, index) => (
               <div
                 key={service.id}
-                className="srv-detail-panel"
-                id={`srv-panel-${index}`}
+                className={`srv-detail-panel${activeIndex === index ? ' panel-active' : ''}`}
+                id={serviceIds[index].panelId}
                 style={{ '--srv-cor': service.cor }}
+                role="tabpanel"
+                aria-labelledby={serviceIds[index].tabId}
+                tabIndex={0}
+                hidden={activeIndex !== index}
               >
                 <div className="sdp-icon">{service.icon}</div>
                 <h3 className="sdp-titulo">{service.titulo}</h3>
@@ -177,7 +243,7 @@ export default function ServicesSection() {
 
       <div className="services-mobile">
         {services.map((service) => (
-          <div key={service.id} className="srv-card-mobile" style={{ '--srv-cor': service.cor }}>
+          <article key={service.id} className="srv-card-mobile" style={{ '--srv-cor': service.cor }}>
             <div className="srv-card-icon">{service.icon}</div>
             <h3>{service.titulo}</h3>
             <p>{service.desc}</p>
@@ -186,7 +252,7 @@ export default function ServicesSection() {
                 <span key={tag} className="sdp-tag">{tag}</span>
               ))}
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </section>

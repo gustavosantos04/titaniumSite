@@ -23,13 +23,13 @@ const valores = [
   },
 ]
 
-export default function SobreSection() {
+export default function SobreSection({ id }) {
   const leftRef = useScrollAnimation({ threshold: 0.15 })
   const rightRef = useScrollAnimation({ threshold: 0.15, rootMargin: '0px 0px -40px 0px' })
   const processRef = useScrollAnimation({ threshold: 0.15, rootMargin: '0px 0px -40px 0px' })
 
   return (
-    <section className="sobre" aria-label="Sobre nós">
+    <section className="sobre" id={id} aria-label="Sobre nós">
       <div className="sobre-inner">
         <div ref={leftRef} className="sobre-left">
           {USE_ORBITAL_VISUAL ? (

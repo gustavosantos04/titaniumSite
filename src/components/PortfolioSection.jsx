@@ -10,8 +10,9 @@ const projects = [
     titulo: 'NGF Racing',
     categoria: 'Site institucional',
     descricao: 'Apresentação da marca com foco em posicionamento, clareza de serviço e um caminho de contato mais direto.',
-    destaque: 'Aumento de Leads',
+    destaque: 'Aumento de leads',
     img: ngfRacingImg,
+    alt: 'Tela inicial do projeto NGF Racing',
     cor: '#a10c0c',
     rot: -2,
     scale: 1.01,
@@ -20,41 +21,17 @@ const projects = [
     id: 2,
     titulo: 'AAAU',
     categoria: 'Site institucional',
-    descricao: 'Apresentação da atletica com foco em posicionamento,  e um contato mais direto com os estudantes.',
+    descricao: 'Apresentação da atlética com foco em posicionamento, identidade visual e um contato mais direto com os estudantes.',
     destaque: 'Atrair mais membros',
     img: aaauImg,
-    link: 'https://exemplo.com/techflow',
+    alt: 'Tela inicial do projeto AAAU',
     cor: '#E0AF46',
     rot: 2,
     scale: 0.99,
   },
-  {
-    id: 3,
-    titulo: 'Gourmet & Cia',
-    categoria: 'E-commerce',
-    descricao: 'Experiência de compra pensada para mobile, com navegação simples e fluxo de pedido mais direto.',
-    destaque: 'Compra simplificada',
-    img: '/assets/portfolio/gourmet.jpg',
-    link: 'https://exemplo.com/gourmet',
-    cor: '#2A468B',
-    rot: -1,
-    scale: 1,
-  },
-  {
-    id: 4,
-    titulo: 'Clínica Vida',
-    categoria: 'Sistema interno',
-    descricao: 'Painel para organizar atendimento e tarefas administrativas com mais visibilidade para a equipe.',
-    destaque: 'Rotina mais organizada',
-    img: '/assets/portfolio/clinica.jpg',
-    link: 'https://exemplo.com/clinica-vida',
-    cor: '#3D6AC1',
-    rot: 1.5,
-    scale: 1.02,
-  },
 ]
 
-export default function PortfolioSection() {
+export default function PortfolioSection({ id }) {
   const cardsRef = useRef([])
 
   useEffect(() => {
@@ -79,11 +56,12 @@ export default function PortfolioSection() {
   }, [])
 
   return (
-    <section className="portfolio" aria-label="Portfólio">
+    <section className="portfolio" id={id} aria-labelledby="portfolio-heading">
       <div className="portfolio-intro">
         <p className="section-eyebrow">Portfólio</p>
         <BlurText
           as="h2"
+          id="portfolio-heading"
           text="Projetos em destaque"
           className="section-heading"
         />
@@ -111,7 +89,7 @@ export default function PortfolioSection() {
               <img
                 className="pcard-img"
                 src={project.img}
-                alt={`${project.titulo} - ${project.categoria}`}
+                alt={project.alt}
                 loading="lazy"
                 decoding="async"
                 onError={(event) => {
@@ -127,14 +105,7 @@ export default function PortfolioSection() {
               <span className="pcard-cat">{project.categoria}</span>
               <h3 className="pcard-title">{project.titulo}</h3>
               <p className="pcard-desc">{project.descricao}</p>
-              <a
-                className="pcard-link"
-                href={project.link}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Ver projeto
-              </a>
+              <span className="pcard-link pcard-link--muted">Apresentação disponível no contato</span>
             </div>
           </article>
         ))}

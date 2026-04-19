@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import useLenis from './hooks/useLenis'
 import CustomCursor from './components/CustomCursor'
 import LoadingScreen from './components/LoadingScreen'
@@ -26,43 +26,52 @@ function SectionFallback() {
 }
 
 export default function App() {
-  const [progress, setProgress] = useState(0)
   const [loading, setLoading] = useState(true)
+  const progressRef = useRef(null)
 
   useLenis()
 
   useEffect(() => {
-    const onScroll = () => {
+    let frameId = 0
+
+    const updateProgress = () => {
+      frameId = 0
       const html = document.documentElement
       const scrolled = html.scrollTop || document.body.scrollTop
       const total = html.scrollHeight - html.clientHeight
-      setProgress(total > 0 ? Math.round((scrolled / total) * 100) : 0)
+      const ratio = total > 0 ? Math.min(scrolled / total, 1) : 0
+
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${ratio})`
+      }
     }
 
-    onScroll()
+    const onScroll = () => {
+      if (frameId) {
+        return
+      }
+
+      frameId = window.requestAnimationFrame(updateProgress)
+    }
+
+    updateProgress()
     window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
 
     return () => {
+      window.cancelAnimationFrame(frameId)
       window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
     }
   }, [])
 
   return (
     <>
       {loading ? <LoadingScreen onComplete={() => setLoading(false)} /> : null}
-      <a
-        href="#main-content"
-        className="skip-link"
-        onFocus={(event) => {
-          event.target.style.top = '1rem'
-        }}
-        onBlur={(event) => {
-          event.target.style.top = '-100px'
-        }}
-      >
-        Pular para o conteúdo
-      </a>
+      <a href="#main-content" className="skip-link">Pular para o conteúdo</a>
       <div
+        ref={progressRef}
+        aria-hidden="true"
         style={{
           position: 'fixed',
           top: 0,
@@ -70,38 +79,26 @@ export default function App() {
           zIndex: 200,
           height: '2px',
           background: 'var(--gold)',
-          width: `${progress}%`,
-          transition: 'width 0.1s linear',
+          width: '100%',
+          transform: 'scaleX(0)',
+          transformOrigin: 'left center',
+          transition: 'transform 0.12s linear',
           pointerEvents: 'none',
         }}
       />
       <CustomCursor />
       <Navbar />
       {!loading ? (
-        <main>
-          <section id="inicio" aria-label="Início">
-            <HeroSection />
-          </section>
+        <main id="main-content" tabIndex="-1" aria-busy={loading}>
+          <HeroSection id="inicio" />
 
           <Suspense fallback={<SectionFallback />}>
-            <section id="servicos" aria-label="Serviços">
-              <ServicesSection />
-            </section>
-            <section id="depoimentos" aria-label="Depoimentos">
-              <TestimonialsSection />
-            </section>
-            <section id="portfolio" aria-label="Portfólio">
-              <PortfolioSection />
-            </section>
-            <section id="sobre" aria-label="Sobre a Titanium">
-              <SobreSection />
-            </section>
-            <section id="diferenciais" aria-label="Diferenciais">
-              <DiferenciaisSection />
-            </section>
-            <section id="contato" aria-label="Contato">
-              <ContatoSection />
-            </section>
+            <ServicesSection id="servicos" />
+            <TestimonialsSection id="depoimentos" />
+            <PortfolioSection id="portfolio" />
+            <SobreSection id="sobre" />
+            <DiferenciaisSection id="diferenciais" />
+            <ContatoSection id="contato" />
             <Footer />
             <WhatsAppButton />
           </Suspense>

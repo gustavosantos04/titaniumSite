@@ -193,12 +193,12 @@ const Cta = styled.a`
   }
 `
 
-export default function DiferenciaisSection() {
+export default function DiferenciaisSection({ id }) {
   const sectionRef = useScrollAnimation()
   const ctaRef = useMagneticEffect(0.35)
 
   return (
-    <Section ref={sectionRef}>
+    <Section id={id} ref={sectionRef}>
       <Inner>
         <Label className="section-eyebrow anim-hidden anim-delay-1">POR QUE A TITANIUM</Label>
         <div className="section-divider anim-hidden anim-delay-2" />

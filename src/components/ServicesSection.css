@@ -45,9 +45,11 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  width: 100%;
   padding: 1rem 1.25rem;
   border-radius: 10px;
-  cursor: default;
+  text-align: left;
+  cursor: pointer;
   transition: all 0.4s ease;
   opacity: 0.35;
   border: 1px solid transparent;
@@ -57,6 +59,12 @@
   opacity: 1;
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(255, 255, 255, 0.07);
+}
+
+.srv-item:focus-visible {
+  opacity: 1;
+  border-color: rgba(224, 175, 70, 0.45);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .srv-num {
@@ -117,6 +125,10 @@
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+}
+
+.srv-detail-panel[hidden] {
+  display: none;
 }
 
 .sdp-icon {
@@ -183,6 +195,13 @@
   border: 1px solid rgba(61, 106, 193, 0.25);
   border-radius: 20px;
   color: rgba(252, 248, 232, 0.45);
+}
+
+@media (max-width: 1100px) and (min-width: 769px) {
+  .services-body {
+    grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1fr);
+    gap: 2.5rem;
+  }
 }
 
 @media (max-width: 768px) {

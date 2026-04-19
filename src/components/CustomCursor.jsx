@@ -36,22 +36,27 @@ export default function CustomCursor() {
   const dotRef = useRef(null)
   const ringRef = useRef(null)
   const frameRef = useRef(0)
-  const targetRef = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
-  const ringStateRef = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
+  const targetRef = useRef({ x: 0, y: 0 })
+  const ringStateRef = useRef({ x: 0, y: 0 })
   const [enabled, setEnabled] = useState(false)
+  const [reducedMotion, setReducedMotion] = useState(false)
 
   useEffect(() => {
     const pointerQuery = window.matchMedia('(pointer: coarse)')
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
 
     const updatePointerMode = () => {
       setEnabled(!pointerQuery.matches)
+      setReducedMotion(motionQuery.matches)
     }
 
     updatePointerMode()
     pointerQuery.addEventListener('change', updatePointerMode)
+    motionQuery.addEventListener('change', updatePointerMode)
 
     return () => {
       pointerQuery.removeEventListener('change', updatePointerMode)
+      motionQuery.removeEventListener('change', updatePointerMode)
     }
   }, [])
 
@@ -82,6 +87,11 @@ export default function CustomCursor() {
         visible = true
         setOpacity('1')
       }
+
+      if (reducedMotion) {
+        dot.style.transform = `translate3d(${clientX}px, ${clientY}px, 0) translate(-50%, -50%)`
+        ring.style.transform = `translate3d(${clientX}px, ${clientY}px, 0) translate(-50%, -50%)`
+      }
     }
 
     const onLeave = () => {
@@ -90,6 +100,10 @@ export default function CustomCursor() {
     }
 
     const animate = () => {
+      if (reducedMotion) {
+        return
+      }
+
       const target = targetRef.current
       const ringState = ringStateRef.current
 
@@ -103,18 +117,21 @@ export default function CustomCursor() {
     }
 
     setOpacity('0')
-    window.addEventListener('mousemove', onMove)
-    window.addEventListener('mouseleave', onLeave)
+    window.addEventListener('pointermove', onMove, { passive: true })
+    window.addEventListener('pointerleave', onLeave)
     window.addEventListener('blur', onLeave)
-    frameRef.current = window.requestAnimationFrame(animate)
+
+    if (!reducedMotion) {
+      frameRef.current = window.requestAnimationFrame(animate)
+    }
 
     return () => {
       window.cancelAnimationFrame(frameRef.current)
-      window.removeEventListener('mousemove', onMove)
-      window.removeEventListener('mouseleave', onLeave)
+      window.removeEventListener('pointermove', onMove)
+      window.removeEventListener('pointerleave', onLeave)
       window.removeEventListener('blur', onLeave)
     }
-  }, [enabled])
+  }, [enabled, reducedMotion])
 
   if (!enabled) {
     return null

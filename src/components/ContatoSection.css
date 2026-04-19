@@ -194,6 +194,29 @@
   border-color: #3d6ac1;
 }
 
+.form-help,
+.form-error,
+.form-feedback {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.form-help {
+  color: rgba(252, 248, 232, 0.35);
+}
+
+.form-error {
+  color: #ffb6b6;
+}
+
+.form-feedback {
+  min-height: 1.5em;
+  color: rgba(252, 248, 232, 0.55);
+  text-align: center;
+}
+
 .form-select {
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(252,248,232,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -292,5 +315,10 @@
   .contato-inner {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+
+  .contato-form,
+  .contato-sucesso {
+    padding: 1.5rem;
   }
 }

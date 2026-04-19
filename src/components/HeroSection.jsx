@@ -2,15 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import './HeroSection.css'
 
 const MOBILE_BREAKPOINT = 768
-const LOOP_BLEND_START_SECONDS = 0.45
-const LOOP_FADE_OUT_MS = 240
-const LOOP_SETTLE_MS = 520
-
-// Coloque o vídeo em /public/videos/hero-light-beam.mp4
 const HERO_VIDEO_SRC = '/videos/hero-light-beam.mp4'
-
-// Fallback usado no mobile e caso o vídeo falhe no desktop.
-const HERO_FALLBACK_SRC = '/frames/frame 1.jpg'
+const HERO_FALLBACK_SRC = '/frames/hero-poster.jpg'
 
 const subtitles = [
   'Criamos sites com foco em conversão.',
@@ -18,36 +11,37 @@ const subtitles = [
   'Desenhamos conteúdo com direção e consistência.',
 ]
 
-export default function HeroSection() {
+function canAutoplayHeroVideo() {
+  if (typeof window === 'undefined') {
+    return false
+  }
+
+  const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches
+  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const prefersReducedData = navigator.connection?.saveData
+  const slowConnection = ['slow-2g', '2g'].includes(navigator.connection?.effectiveType)
+
+  return !(isMobile || isTouchDevice || prefersReducedMotion || prefersReducedData || slowConnection)
+}
+
+export default function HeroSection({ id }) {
   const subtitleTimeoutRef = useRef(0)
-  const videoRefs = useRef([null, null])
-  const loopSwapTimeoutRef = useRef(0)
-  const loopResetTimeoutRef = useRef(0)
-  const activeVideoIndexRef = useRef(0)
-  const isLoopTransitioningRef = useRef(false)
+  const idleTimerRef = useRef(0)
   const [subtitleIdx, setSubtitleIdx] = useState(0)
   const [visible, setVisible] = useState(true)
-  const [useVideo, setUseVideo] = useState(() => {
-    if (typeof window === 'undefined') {
-      return true
-    }
+  const [useVideo, setUseVideo] = useState(() => canAutoplayHeroVideo())
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false)
+  const [videoReady, setVideoReady] = useState(false)
+  const [videoFailed, setVideoFailed] = useState(false)
 
-    const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches
-    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
+  useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    return !(isMobile || isTouchDevice || prefersReducedMotion)
-  })
-  const [readyVideos, setReadyVideos] = useState([false, false])
-  const [videoFailed, setVideoFailed] = useState(false)
-  const [activeVideoIndex, setActiveVideoIndex] = useState(0)
-  const [videoLoopFade, setVideoLoopFade] = useState(false)
+    if (prefersReducedMotion) {
+      return undefined
+    }
 
-  useEffect(() => {
-    activeVideoIndexRef.current = activeVideoIndex
-  }, [activeVideoIndex])
-
-  useEffect(() => {
     const interval = window.setInterval(() => {
       setVisible(false)
       window.clearTimeout(subtitleTimeoutRef.current)
@@ -64,167 +58,108 @@ export default function HeroSection() {
   }, [])
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`)
-    const onChange = () => {
-      const isMobile = mediaQuery.matches
-      const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const mobileQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`)
+    const pointerQuery = window.matchMedia('(pointer: coarse)')
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
 
-      setUseVideo(!(isMobile || isTouchDevice || prefersReducedMotion))
+    const updateStrategy = () => {
+      const prefersReducedData = navigator.connection?.saveData
+      const slowConnection = ['slow-2g', '2g'].includes(navigator.connection?.effectiveType)
+      setUseVideo(!(mobileQuery.matches || pointerQuery.matches || motionQuery.matches || prefersReducedData || slowConnection))
     }
 
-    onChange()
-    mediaQuery.addEventListener('change', onChange)
+    updateStrategy()
+    mobileQuery.addEventListener('change', updateStrategy)
+    pointerQuery.addEventListener('change', updateStrategy)
+    motionQuery.addEventListener('change', updateStrategy)
 
     return () => {
-      mediaQuery.removeEventListener('change', onChange)
+      mobileQuery.removeEventListener('change', updateStrategy)
+      pointerQuery.removeEventListener('change', updateStrategy)
+      motionQuery.removeEventListener('change', updateStrategy)
     }
   }, [])
 
+  useEffect(() => {
+    if (!useVideo) {
+      setShouldLoadVideo(false)
+      setVideoReady(false)
+      return undefined
+    }
+
+    const scheduleLoad = () => setShouldLoadVideo(true)
+
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(scheduleLoad, { timeout: 1200 })
+
+      return () => {
+        window.cancelIdleCallback(idleId)
+      }
+    }
+
+    idleTimerRef.current = window.setTimeout(scheduleLoad, 350)
+
+    return () => {
+      window.clearTimeout(idleTimerRef.current)
+    }
+  }, [useVideo])
+
   useEffect(() => (
     () => {
-      window.clearInterval(subtitleTimeoutRef.current)
-      window.clearTimeout(loopSwapTimeoutRef.current)
-      window.clearTimeout(loopResetTimeoutRef.current)
+      window.clearTimeout(subtitleTimeoutRef.current)
+      window.clearTimeout(idleTimerRef.current)
     }
   ), [])
 
-  const handleVideoReady = (index) => {
-    setReadyVideos((current) => {
-      if (current[index]) {
-        return current
-      }
-
-      const next = [...current]
-      next[index] = true
-      return next
-    })
-  }
-
-  const startLoopTransition = () => {
-    if (isLoopTransitioningRef.current) {
-      return
-    }
-
-    const currentIndex = activeVideoIndexRef.current
-    const nextIndex = currentIndex === 0 ? 1 : 0
-    const currentVideo = videoRefs.current[currentIndex]
-    const nextVideo = videoRefs.current[nextIndex]
-
-    if (!currentVideo || !nextVideo) {
-      return
-    }
-
-    isLoopTransitioningRef.current = true
-    setVideoLoopFade(true)
-    window.clearTimeout(loopSwapTimeoutRef.current)
-    window.clearTimeout(loopResetTimeoutRef.current)
-
-    nextVideo.currentTime = 0
-    nextVideo.muted = true
-
-    const playPromise = nextVideo.play()
-
-    if (playPromise && typeof playPromise.then === 'function') {
-      playPromise.catch(() => {
-        setVideoFailed(true)
-      })
-    }
-
-    loopSwapTimeoutRef.current = window.setTimeout(() => {
-      setActiveVideoIndex(nextIndex)
-    }, LOOP_FADE_OUT_MS)
-
-    loopResetTimeoutRef.current = window.setTimeout(() => {
-      currentVideo.pause()
-      currentVideo.currentTime = 0
-      setVideoLoopFade(false)
-      isLoopTransitioningRef.current = false
-    }, LOOP_SETTLE_MS)
-  }
-
-  const handleVideoTimeUpdate = (index) => {
-    if (index !== activeVideoIndexRef.current || isLoopTransitioningRef.current) {
-      return
-    }
-
-    const activeVideo = videoRefs.current[index]
-
-    if (!activeVideo || !Number.isFinite(activeVideo.duration) || activeVideo.duration <= 0) {
-      return
-    }
-
-    const remainingTime = activeVideo.duration - activeVideo.currentTime
-
-    if (remainingTime <= LOOP_BLEND_START_SECONDS) {
-      startLoopTransition()
-    }
-  }
-
-  const handleVideoError = () => {
-    setVideoFailed(true)
-  }
-
-  const shouldHideFallback = useVideo && !videoFailed && readyVideos.some(Boolean)
+  const shouldHideFallback = useVideo && shouldLoadVideo && !videoFailed && videoReady
 
   return (
-    <section
-      id="main-content"
-      className="hero"
-      aria-label="Hero com vídeo de fundo"
-    >
+    <section id={id} className="hero" aria-labelledby="hero-title">
       <div className="hero-stage">
         <img
           className={`hero-fallback-frame ${shouldHideFallback ? 'is-hidden' : ''}`}
           src={HERO_FALLBACK_SRC}
-          alt="Feixe de luz azul em fundo escuro"
+          alt=""
           loading="eager"
           decoding="async"
           fetchPriority="high"
         />
 
-        {useVideo && !videoFailed ? (
-          <>
-            {[0, 1].map((index) => (
-              <video
-                key={index}
-                ref={(node) => {
-                  videoRefs.current[index] = node
-                }}
-                className={`hero-video ${readyVideos[index] ? 'is-ready' : ''} ${activeVideoIndex === index ? 'is-active' : 'is-idle'}`}
-                src={HERO_VIDEO_SRC}
-                poster={HERO_FALLBACK_SRC}
-                autoPlay={index === 0}
-                muted
-                playsInline
-                preload="auto"
-                onCanPlay={() => handleVideoReady(index)}
-                onPlaying={() => handleVideoReady(index)}
-                onTimeUpdate={() => handleVideoTimeUpdate(index)}
-                onError={handleVideoError}
-                aria-hidden="true"
-              />
-            ))}
-          </>
+        {useVideo && shouldLoadVideo && !videoFailed ? (
+          <video
+            className={`hero-video ${videoReady ? 'is-ready' : ''}`}
+            src={HERO_VIDEO_SRC}
+            poster={HERO_FALLBACK_SRC}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            onCanPlay={() => setVideoReady(true)}
+            onPlaying={() => setVideoReady(true)}
+            onError={() => setVideoFailed(true)}
+            aria-hidden="true"
+          />
         ) : null}
 
         <div className="hero-backdrop" aria-hidden="true" />
-        <div className={`hero-loop-fade ${videoLoopFade ? 'is-active' : ''}`} aria-hidden="true" />
 
         <div className="hero-copy">
           <p className="hero-eyebrow">Agência de desenvolvimento e conteúdo</p>
 
-          <h1 className="hero-title" aria-label="Vamos construir seu legado">
+          <h1 id="hero-title" className="hero-title" aria-label="Vamos construir seu legado">
             <span className="hero-line">Vamos construir</span>
             <span className="hero-line hero-line--gold">seu legado</span>
           </h1>
 
-          <p className={`hero-subtitle ${visible ? 'sub-in' : 'sub-out'}`}>
+          <p className={`hero-subtitle ${visible ? 'sub-in' : 'sub-out'}`} aria-live="polite">
             {subtitles[subtitleIdx]}
           </p>
 
           <div className="hero-ctas">
-            <a className="cta-primary" href="#portfolio">Ver portfólio</a>
+            <a className="cta-primary" href="#portfolio" aria-label="Ir para a seção de portfólio">
+              Ver portfólio
+            </a>
             <a className="cta-ghost" href="#contato">Falar com a Titanium</a>
           </div>
 

@@ -33,9 +33,17 @@ export default function Footer() {
           <div>
             <div className="footer-brand">
               <span className="footer-brand-mark" aria-hidden="true">
-                <img src={iconSrc} alt="" loading="lazy" decoding="async" />
+                <img src={iconSrc} alt="" width="28" height="28" loading="lazy" decoding="async" />
               </span>
-              <img className="footer-brand-logo" src={logoSrc} alt={siteName} loading="lazy" decoding="async" />
+              <img
+                className="footer-brand-logo"
+                src={logoSrc}
+                alt={siteName}
+                width="129"
+                height="34"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
 
             <p className="footer-tagline">Criamos Legado.</p>
@@ -80,7 +88,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span>(c) {year} {siteName}. Todos os direitos reservados.</span>
+          <span>© {year} {siteName}. Todos os direitos reservados.</span>
           <span>Feito com propósito • Brasil</span>
         </div>
       </div>
