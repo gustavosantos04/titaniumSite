@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://www.titaniumagencylegacy.com.br/sitemap.xml
+
+Sitemap: https://titaniumagencylegacy.com.br/sitemap.xml

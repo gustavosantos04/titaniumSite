@@ -1,0 +1,30 @@
+.wabtn {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #25d366;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  transform: scale(0.8) translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  pointer-events: none;
+  text-decoration: none;
+}
+
+.wabtn--visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+
+.wabtn:hover {
+  transform: scale(1.08) translateY(0) !important;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+}
