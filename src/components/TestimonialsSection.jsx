@@ -6,43 +6,33 @@ import './TestimonialsSection.css'
 const depoimentos = [
   {
     id: 1,
-    nome: 'Mariana Costa',
-    cargo: 'Proprietária',
-    empresa: 'Bella Estética',
+    nome: 'Nelter Santos',
+    cargo: 'Dono',
+    empresa: 'NGF Racing',
     texto:
-      'A conversa foi objetiva desde o início. O site saiu com uma linguagem muito mais alinhada à marca e hoje consigo apresentar melhor o meu trabalho.',
-    inicial: 'MC',
+      'Site muito mais intuitivo e com diferencial gigante no meu nicho. O processo foi leve, com comunicação clara e entregas rápidas. Recomendo demais para quem quer crescer online.',
+    inicial: 'NS',
     cor: '#3D6AC1',
   },
   {
     id: 2,
-    nome: 'Rafael Mendes',
-    cargo: 'Consultor',
-    empresa: 'TechFlow',
+    nome: 'Gestão',
+    cargo: 'Atlética Universitária',
+    empresa: 'AAAU',
     texto:
-      'Gostei da clareza no processo. Sempre soube o que estava sendo feito, o que ainda dependia de mim e como a entrega final seria usada no dia a dia.',
-    inicial: 'RM',
+      'Em nome da atlética, só temos a agradecer. O site ficou incrível, super fácil de usar e com uma identidade visual que representa muito bem a nossa marca. Primeiro site no nicho de atléticas.',
+    inicial: 'AU',
     cor: '#E0AF46',
   },
   {
     id: 3,
-    nome: 'Beatriz Oliveira',
-    cargo: 'Diretora',
-    empresa: 'Clínica Vida',
+    nome: 'Silvio Ricardo',
+    cargo: 'Dono',
+    empresa: 'Eletroser',
     texto:
-      'O projeto trouxe mais organização para a nossa rotina. Não foi só uma mudança visual: a estrutura ficou mais funcional para a equipe e para os pacientes.',
-    inicial: 'BO',
+      'O site da Eletroser ficou muito bom, superou minhas expectativas. O processo foi tranquilo, com comunicação clara e entregas rápidas. Recomendo a Titanium para quem quer um site profissional e eficiente.',
+    inicial: 'SR',
     cor: '#2A468B',
-  },
-  {
-    id: 4,
-    nome: 'Lucas Ferreira',
-    cargo: 'Fundador',
-    empresa: 'ImóvelPrime',
-    texto:
-      'O ponto forte foi a parceria. A Titanium ouviu, ajustou rápido e entregou uma base digital muito mais coerente com a fase atual da empresa.',
-    inicial: 'LF',
-    cor: '#3D6AC1',
   },
 ]
 
