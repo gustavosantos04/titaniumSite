@@ -21,20 +21,11 @@
   backdrop-filter: blur(16px);
 }
 
-.navbar-brand { display: inline-flex; align-items: center; gap: 10px; width: max-content; }
-.navbar-mark {
-  width: 30px;
-  height: 30px;
-  display: grid;
-  place-items: center;
-  border: 1px solid currentColor;
-  font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1;
-}
-.navbar-wordmark { display: flex; align-items: baseline; gap: 7px; font-family: var(--font-display); }
-.navbar-wordmark strong { font-size: 14px; letter-spacing: 0.12em; }
-.navbar-wordmark small { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.16em; opacity: 0.6; }
+.navbar-brand { display: inline-flex; align-items: center; gap: 5px; width: max-content; }
+.navbar-icon { width: 34px; height: 34px; object-fit: cover; }
+.navbar-logo { width: 174px; height: 58px; object-fit: contain; filter: invert(1); transition: filter 180ms ease; }
+.navbar--dark .navbar-logo,
+.navbar--open .navbar-logo { filter: none; }
 
 .navbar-links { display: flex; align-items: center; gap: clamp(1rem, 2vw, 2rem); }
 .navbar-links a,
@@ -68,6 +59,8 @@
 @media (max-width: 850px) {
   .navbar { height: 64px; grid-template-columns: 1fr auto; }
   .navbar-links, .navbar-contact { display: none; }
+  .navbar-logo { width: 142px; height: 48px; }
+  .navbar-icon { width: 30px; height: 30px; }
   .navbar-toggle {
     display: grid;
     width: 44px;

@@ -1,27 +1,22 @@
 .about { padding: clamp(5rem, 10vw, 10rem) var(--section-padding-x); background: var(--navy); color: var(--paper); }
-.about-intro { max-width: 1440px; margin: 0 auto clamp(4rem, 8vw, 8rem); display: grid; grid-template-columns: 1.05fr .75fr; gap: 4rem; align-items: end; }
+.about-summary, .about-process, .about-mvv { max-width: 1440px; margin-left: auto; margin-right: auto; }
+.about-summary { display: grid; grid-template-columns: 1.05fr .75fr; gap: 4rem; align-items: end; }
 .about .section-eyebrow { color: var(--blue-lift); }
 .about .section-heading { color: var(--paper); font-size: clamp(3rem, 6vw, 6.25rem); font-weight: 600; line-height: .92; letter-spacing: -.055em; }
-.about-statement { padding-bottom: .7rem; }
-.about-statement p { max-width: 50ch; color: rgba(242,241,235,.68); font-size: clamp(1rem, 1.4vw, 1.2rem); }
-.about-statement span { display: block; margin-top: 1.7rem; color: var(--blue-lift); font: 9px var(--font-mono); letter-spacing: .1em; }
-.about-principles { max-width: 1440px; margin: 0 auto clamp(7rem, 12vw, 12rem); display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(242,241,235,.18); }
-.about-principles article { padding: 2rem 2rem 3rem 0; border-right: 1px solid rgba(242,241,235,.18); }
-.about-principles article + article { padding-left: 2rem; }
-.about-principles article:last-child { border-right: 0; }
-.about-principles article > span { font: 9px var(--font-mono); color: var(--blue-lift); }
-.about-principles h3 { margin-top: 4rem; font-size: clamp(1.6rem, 2.6vw, 2.6rem); font-weight: 500; letter-spacing: -.035em; }
-.about-principles p { margin-top: 1rem; max-width: 36ch; color: rgba(242,241,235,.55); font-size: .88rem; }
-.about-process { max-width: 1440px; margin: 0 auto; }
-.about-process > .section-heading { margin-bottom: 5rem; font-size: clamp(2.7rem, 5vw, 5rem); }
-.about-mvv { max-width: 1440px; margin: clamp(6rem, 12vw, 12rem) auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(242,241,235,.16); border: 1px solid rgba(242,241,235,.16); }
-.about-mvv article { padding: 2rem; background: var(--navy); }
-.about-mvv h3 { font: 10px var(--font-mono); color: var(--blue-lift); text-transform: uppercase; letter-spacing: .1em; }
-.about-mvv p { margin-top: 2rem; color: rgba(242,241,235,.6); font-size: .88rem; }
-
+.about-copy { padding-bottom: .6rem; }
+.about-copy p { max-width: 47ch; color: rgba(242,241,235,.68); font-size: clamp(1rem, 1.35vw, 1.18rem); }
+.about-copy p + p { margin-top: 1rem; color: var(--blue-lift); font-size: .9rem; }
+.about-process { margin-top: clamp(6rem, 11vw, 11rem); padding-top: clamp(3rem, 6vw, 5rem); border-top: 1px solid rgba(242,241,235,.18); }
+.about-process > .section-heading { margin-bottom: clamp(3rem, 6vw, 5rem); font-size: clamp(2.7rem, 5vw, 5rem); }
+.about-mvv { margin-top: clamp(5rem, 9vw, 8rem); display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(242,241,235,.18); border-bottom: 1px solid rgba(242,241,235,.18); }
+.about-mvv div { display: grid; grid-template-columns: 80px 1fr; gap: 1rem; padding: 1.35rem 1.5rem 1.35rem 0; border-right: 1px solid rgba(242,241,235,.18); }
+.about-mvv div + div { padding-left: 1.5rem; }
+.about-mvv div:last-child { border-right: 0; }
+.about-mvv strong { color: var(--blue-lift); font: 9px var(--font-mono); text-transform: uppercase; letter-spacing: .08em; }
+.about-mvv span { color: rgba(242,241,235,.55); font-size: .78rem; line-height: 1.5; }
 @media (max-width: 800px) {
-  .about-intro, .about-principles, .about-mvv { grid-template-columns: 1fr; }
-  .about-intro { gap: 1rem; }
-  .about-principles article, .about-principles article + article { padding: 2rem 0; border-right: 0; border-bottom: 1px solid rgba(242,241,235,.18); }
-  .about-principles h3 { margin-top: 2.5rem; }
+  .about-summary { grid-template-columns: 1fr; gap: 1rem; }
+  .about-mvv { grid-template-columns: 1fr; }
+  .about-mvv div, .about-mvv div + div { padding: 1.25rem 0; border-right: 0; border-bottom: 1px solid rgba(242,241,235,.18); }
+  .about-mvv div:last-child { border-bottom: 0; }
 }

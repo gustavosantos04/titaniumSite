@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import iconSrc from '../assets/icone-t.png'
+import logoSrc from '../assets/logo-titanium.png'
 import './Navbar.css'
 
 const NAV_ITEMS = [
-  { id: 'portfolio', label: 'Projetos' },
   { id: 'servicos', label: 'Serviços' },
+  { id: 'portfolio', label: 'Projetos' },
   { id: 'sobre', label: 'Processo' },
   { id: 'depoimentos', label: 'Depoimentos' },
   { id: 'contato', label: 'Contato' },
@@ -35,8 +37,8 @@ export default function Navbar() {
   return (
     <header className={`navbar ${dark ? 'navbar--dark' : ''} ${menuOpen ? 'navbar--open' : ''}`}>
       <a className="navbar-brand" href="#inicio" aria-label="Titanium Legacy — início">
-        <span className="navbar-mark" aria-hidden="true">T</span>
-        <span className="navbar-wordmark"><strong>TITANIUM</strong><small>LEGACY</small></span>
+        <img className="navbar-icon" src={iconSrc} alt="" width="34" height="34" />
+        <img className="navbar-logo" src={logoSrc} alt="Titanium Agency Legacy" width="174" height="58" />
       </a>
 
       <nav className="navbar-links" aria-label="Navegação principal">

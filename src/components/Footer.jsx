@@ -1,3 +1,4 @@
+import logoSrc from '../assets/logo-titanium.png'
 import { buildWhatsappLink, contactEmail, instagramUrl, siteName } from '../config/site'
 import './Footer.css'
 
@@ -29,10 +30,7 @@ export default function Footer() {
         <div className="footer-top">
           <div>
             <div className="footer-brand">
-              <span className="footer-brand-mark" aria-hidden="true">
-                T
-              </span>
-              <strong className="footer-brand-logo">TITANIUM <small>LEGACY</small></strong>
+              <img className="footer-official-logo" src={logoSrc} alt={siteName} width="240" height="80" loading="lazy" />
             </div>
 
             <p className="footer-tagline">Criamos Legado.</p>

@@ -51,6 +51,12 @@
   opacity: .5;
 }
 
+.footer-official-logo {
+  width: 240px;
+  height: 80px;
+  object-fit: contain;
+}
+
 .footer-brand-mark img {
   width: 28px;
   height: 28px;

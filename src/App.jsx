@@ -3,6 +3,7 @@ import useLenis from './hooks/useLenis'
 import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
 import WhatsAppButton from './components/WhatsAppButton'
+import SiteIntro from './components/SiteIntro'
 import './styles/globals.css'
 
 const ServicesSection = lazy(() => import('./components/ServicesSection'))
@@ -63,6 +64,7 @@ export default function App() {
 
   return (
     <>
+      <SiteIntro />
       <a href="#main-content" className="skip-link">Pular para o conteúdo</a>
       <div
         ref={progressRef}
@@ -86,8 +88,8 @@ export default function App() {
         <HeroSection id="inicio" />
 
         <Suspense fallback={<SectionFallback />}>
-          <PortfolioSection id="portfolio" />
           <ServicesSection id="servicos" />
+          <PortfolioSection id="portfolio" />
           <SobreSection id="sobre" />
           <TestimonialsSection id="depoimentos" />
           <ContatoSection id="contato" />
