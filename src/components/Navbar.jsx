@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import iconSrc from '../assets/icone-t.png'
 import logoSrc from '../assets/logo-titanium.png'
 import './Navbar.css'
 
@@ -13,21 +12,6 @@ const NAV_ITEMS = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [dark, setDark] = useState(false)
-
-  useEffect(() => {
-    const update = () => {
-      const hero = document.getElementById('inicio')
-      setDark(hero ? window.scrollY > hero.offsetHeight * 0.47 : window.scrollY > 80)
-    }
-    update()
-    window.addEventListener('scroll', update, { passive: true })
-    window.addEventListener('resize', update)
-    return () => {
-      window.removeEventListener('scroll', update)
-      window.removeEventListener('resize', update)
-    }
-  }, [])
 
   useEffect(() => {
     document.body.classList.toggle('menu-open', menuOpen)
@@ -35,9 +19,8 @@ export default function Navbar() {
   }, [menuOpen])
 
   return (
-    <header className={`navbar ${dark ? 'navbar--dark' : ''} ${menuOpen ? 'navbar--open' : ''}`}>
+    <header className={`navbar ${menuOpen ? 'navbar--open' : ''}`}>
       <a className="navbar-brand" href="#inicio" aria-label="Titanium Legacy — início">
-        <img className="navbar-icon" src={iconSrc} alt="" width="34" height="34" />
         <img className="navbar-logo" src={logoSrc} alt="Titanium Agency Legacy" width="174" height="58" />
       </a>
 

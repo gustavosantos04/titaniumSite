@@ -16,8 +16,8 @@ export default function SobreSection({ id }) {
           <h2 id="about-heading" className="section-heading">Tecnologia feita<br />de perto.</h2>
         </div>
         <div className="about-copy">
-          <p>Somos um estúdio de tecnologia com operação enxuta. Entendemos o contexto, definimos o que realmente precisa ser construído e acompanhamos cada etapa diretamente.</p>
-          <p>Sem camadas desnecessárias entre a conversa e a execução.</p>
+          <p>A Titanium nasceu para aproximar boas ideias da tecnologia. A gente queria criar projetos sem transformar uma necessidade simples em um processo distante, complicado ou cheio de termos.</p>
+          <p>Por isso, conversamos de perto, entendemos o momento de cada negócio e construímos junto — do primeiro rascunho até a entrega.</p>
         </div>
       </div>
 
