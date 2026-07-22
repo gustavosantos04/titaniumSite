@@ -94,6 +94,33 @@ body,
 
 html {
   scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--blue) var(--navy);
+  scrollbar-gutter: stable;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--navy);
+}
+
+::-webkit-scrollbar-thumb {
+  min-height: 48px;
+  border: 2px solid var(--navy);
+  border-radius: 999px;
+  background: var(--blue);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--blue-lift);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--navy);
 }
 
 html.menu-open,

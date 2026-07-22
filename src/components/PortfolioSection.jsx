@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import aaauImg from '../assets/portfolio/aaau.webp'
 import ngfRacingImg from '../assets/portfolio/ngf-racing.webp'
+import eletroserImg from '../assets/portfolio/eletroser.webp'
+import titaniumCoreImg from '../assets/portfolio/titanium-core.webp'
 import './PortfolioSection.css'
 
 const projects = [
@@ -17,7 +19,7 @@ const projects = [
   {
     id: 'eletroser', number: '03', title: 'Eletroser', type: 'Site institucional',
     summary: 'Site profissional voltado à apresentação dos serviços e ao contato com novos clientes.',
-    status: 'Case em preparação', visual: 'circuit',
+    status: 'Publicado', image: eletroserImg, imageAlt: 'Página inicial do site Eletroser', imageFit: 'contain',
   },
   {
     id: 'juridico', number: '04', title: 'Operação jurídica', type: 'Automação confidencial',
@@ -27,12 +29,12 @@ const projects = [
   {
     id: 'core', number: '05', title: 'Titanium Core', type: 'Produto próprio',
     summary: 'Produto tecnológico próprio da Titanium, apresentado com transparência enquanto sua primeira versão é construída.',
-    status: 'Em desenvolvimento', visual: 'core',
+    status: 'Em desenvolvimento', image: titaniumCoreImg, imageAlt: 'Tela de acesso do Titanium Core', imageFit: 'contain',
   },
 ]
 
 function ProjectVisual({ project }) {
-  if (project.image) return <img src={project.image} alt={project.imageAlt} loading="lazy" decoding="async" />
+  if (project.image) return <img className={project.imageFit === 'contain' ? 'project-image--contain' : ''} src={project.image} alt={project.imageAlt} loading="lazy" decoding="async" />
   return (
     <div className={`project-abstract project-abstract--${project.visual}`} aria-hidden="true">
       <span className="project-abstract-label">{project.type}</span>
