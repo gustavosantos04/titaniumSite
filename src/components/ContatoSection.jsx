@@ -7,7 +7,7 @@ import './ContatoSection.css'
 const canais = [
   {
     label: 'WhatsApp',
-    detalhe: 'Resposta em até 2h',
+    detalhe: 'Converse sobre seu projeto',
     href: buildWhatsappLink('Olá! Vim pelo site e quero saber mais sobre os serviços da Titanium.'),
     cor: '#25D366',
     icon: (
@@ -44,12 +44,9 @@ const canais = [
 ]
 
 const serviceOptions = [
-  'Site institucional',
-  'Landing page',
-  'Sistema web / SaaS',
-  'E-commerce',
-  'Conteúdo para Instagram',
-  'Automação',
+  'Site ou experiência digital',
+  'Sistema sob medida',
+  'Automação ou integração',
   'Outro',
 ]
 
@@ -158,15 +155,14 @@ export default function ContatoSection({ id }) {
         <div className="contato-left" ref={leftRef}>
           <span className="section-eyebrow">Contato</span>
           <BlurText
-            text="Vamos construir algo incrível juntos?"
+            text="Qual é o próximo passo do seu legado?"
             as="h2"
             id="contato-heading"
             className="section-heading"
             staggerDelay={0.06}
           />
           <p className="contato-desc">
-            Conte sobre o seu projeto. Respondemos em até 2 horas
-            no WhatsApp e transformamos sua ideia em resultado real.
+            Conte o que precisa funcionar melhor. A conversa inicial serve para entendermos o contexto e indicarmos um próximo passo possível.
           </p>
 
           <div className="contato-canais" role="list" aria-label="Canais de contato direto">
@@ -195,7 +191,7 @@ export default function ContatoSection({ id }) {
 
           <div className="contato-badge">
             <span className="badge-dot" />
-            <span>Online agora · Resposta rápida garantida</span>
+            <span>Contato direto com a Titanium</span>
           </div>
         </div>
 
@@ -298,8 +294,8 @@ export default function ContatoSection({ id }) {
           ) : (
             <div className="contato-sucesso" role="status" aria-live="polite">
               <div className="sucesso-icon">✓</div>
-              <h3>Mensagem enviada!</h3>
-              <p>O WhatsApp foi aberto com sua mensagem. Em breve retornaremos o contato.</p>
+              <h3>Tudo pronto!</h3>
+              <p>O WhatsApp foi aberto com sua mensagem preenchida. Agora é só revisar e enviar.</p>
               <button type="button" className="form-submit" onClick={() => setEnviado(false)}>
                 Enviar outra mensagem
               </button>

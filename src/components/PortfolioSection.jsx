@@ -1,118 +1,87 @@
-import { useEffect, useRef } from 'react'
-import BlurText from './BlurText'
-import aaauImg from '../assets/portfolio/aaau.png'
-import ngfRacingImg from '../assets/portfolio/ngf-racing.png'
+import { useState } from 'react'
+import aaauImg from '../assets/portfolio/aaau.webp'
+import ngfRacingImg from '../assets/portfolio/ngf-racing.webp'
 import './PortfolioSection.css'
 
 const projects = [
   {
-    id: 1,
-    titulo: 'NGF Racing',
-    categoria: 'Site institucional',
-    descricao: 'Apresentação da marca com foco em posicionamento, clareza de serviço e um caminho de contato mais direto.',
-    destaque: 'Aumento de leads',
-    img: ngfRacingImg,
-    alt: 'Tela inicial do projeto NGF Racing',
-    cor: '#a10c0c',
-    rot: -2,
-    scale: 1.01,
+    id: 'ngf', number: '01', title: 'NGF Racing', type: 'Site institucional',
+    summary: 'Presença digital para apresentar a marca, seus serviços e abrir um caminho direto de contato.',
+    image: ngfRacingImg, imageAlt: 'Página inicial do site NGF Racing', status: 'Publicado',
   },
   {
-    id: 2,
-    titulo: 'AAAU',
-    categoria: 'Site institucional',
-    descricao: 'Apresentação da atlética com foco em posicionamento, identidade visual e um contato mais direto com os estudantes.',
-    destaque: 'Atrair mais membros',
-    img: aaauImg,
-    alt: 'Tela inicial do projeto AAAU',
-    cor: '#E0AF46',
-    rot: 2,
-    scale: 0.99,
+    id: 'aaau', number: '02', title: 'AAAU', type: 'Site institucional',
+    summary: 'Experiência digital criada para representar a identidade da atlética e aproximar novos membros.',
+    image: aaauImg, imageAlt: 'Página inicial do site AAAU', status: 'Publicado',
+  },
+  {
+    id: 'eletroser', number: '03', title: 'Eletroser', type: 'Site institucional',
+    summary: 'Site profissional voltado à apresentação dos serviços e ao contato com novos clientes.',
+    status: 'Case em preparação', visual: 'circuit',
+  },
+  {
+    id: 'juridico', number: '04', title: 'Operação jurídica', type: 'Automação confidencial',
+    summary: 'Fluxo interno para apoiar o cadastro de processos e reduzir tarefas manuais em um escritório de advocacia.',
+    status: 'Cliente confidencial', visual: 'flow',
+  },
+  {
+    id: 'core', number: '05', title: 'Titanium Core', type: 'Produto próprio',
+    summary: 'Produto tecnológico próprio da Titanium, apresentado com transparência enquanto sua primeira versão é construída.',
+    status: 'Em desenvolvimento', visual: 'core',
   },
 ]
 
+function ProjectVisual({ project }) {
+  if (project.image) return <img src={project.image} alt={project.imageAlt} loading="lazy" decoding="async" />
+  return (
+    <div className={`project-abstract project-abstract--${project.visual}`} aria-hidden="true">
+      <span className="project-abstract-label">{project.type}</span>
+      <div className="project-abstract-grid" />
+      <strong>{project.number}</strong>
+    </div>
+  )
+}
+
 export default function PortfolioSection({ id }) {
-  const cardsRef = useRef([])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = cardsRef.current.indexOf(entry.target)
-            window.setTimeout(() => {
-              entry.target.classList.add('card-visible')
-            }, idx * 120)
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -60px 0px' },
-    )
-
-    cardsRef.current.forEach((element) => element && observer.observe(element))
-
-    return () => observer.disconnect()
-  }, [])
+  const [activeId, setActiveId] = useState(projects[0].id)
+  const activeProject = projects.find((project) => project.id === activeId) || projects[0]
 
   return (
     <section className="portfolio" id={id} aria-labelledby="portfolio-heading">
-      <div className="portfolio-intro">
-        <p className="section-eyebrow">Portfólio</p>
-        <BlurText
-          as="h2"
-          id="portfolio-heading"
-          text="Projetos em destaque"
-          className="section-heading"
-        />
-        <BlurText
-          text="Selecionamos poucos projetos para destacar o tipo de problema que gostamos de resolver e a forma como organizamos cada entrega."
-          className="portfolio-sub"
-        />
-      </div>
+      <header className="portfolio-header">
+        <div>
+          <span className="section-eyebrow">Projetos / 01—05</span>
+          <h2 id="portfolio-heading" className="section-heading">Trabalho que vira<br />estrutura real.</h2>
+        </div>
+        <p>Projetos publicados, soluções internas e produtos em construção. Cada trabalho responde a um contexto diferente.</p>
+      </header>
 
-      <div className="portfolio-grid">
-        {projects.map((project, index) => (
-          <article
-            key={project.id}
-            ref={(element) => {
-              cardsRef.current[index] = element
-            }}
-            className="pcard"
-            style={{
-              '--rot': `${project.rot}deg`,
-              '--accent': project.cor,
-              '--scale': project.scale,
-            }}
-          >
-            <div className="pcard-img-wrap">
-              <img
-                className="pcard-img"
-                src={project.img}
-                alt={project.alt}
-                loading="lazy"
-                decoding="async"
-                onError={(event) => {
-                  event.currentTarget.style.display = 'none'
-                  event.currentTarget.parentNode.classList.add('pcard-img-placeholder')
-                }}
-              />
-              <span className="pcard-resultado-pill">{project.destaque}</span>
-              <div className="pcard-image-tint" aria-hidden="true" />
-            </div>
+      <div className="portfolio-layout">
+        <div className="project-list">
+          {projects.map((project) => (
+            <article
+              key={project.id}
+              className={`project-row ${activeId === project.id ? 'project-row--active' : ''}`}
+              onMouseEnter={() => setActiveId(project.id)}
+              onFocus={() => setActiveId(project.id)}
+              tabIndex="0"
+            >
+              <span className="project-number">{project.number}</span>
+              <div className="project-main">
+                <h3>{project.title}</h3>
+                <p>{project.summary}</p>
+              </div>
+              <div className="project-meta"><span>{project.type}</span><small>{project.status}</small></div>
+              <span className="project-arrow" aria-hidden="true">↗</span>
+              <div className="project-mobile-visual"><ProjectVisual project={project} /></div>
+            </article>
+          ))}
+        </div>
 
-            <div className="pcard-info">
-              <span className="pcard-cat">{project.categoria}</span>
-              <h3 className="pcard-title">{project.titulo}</h3>
-              <p className="pcard-desc">{project.descricao}</p>
-              <span className="pcard-link pcard-link--muted">Apresentação disponível no contato</span>
-            </div>
-          </article>
-        ))}
-      </div>
-
-      <div className="portfolio-cta-wrap">
-        <a className="cta-primary" href="#contato">Quero um projeto assim</a>
+        <aside className="project-preview" aria-live="polite">
+          <ProjectVisual project={activeProject} />
+          <div className="project-preview-caption"><span>{activeProject.title}</span><span>{activeProject.status}</span></div>
+        </aside>
       </div>
     </section>
   )

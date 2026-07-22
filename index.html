@@ -1,20 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QKZHYQMZQX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-QKZHYQMZQX');
-    </script>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Sites, sistemas e conteúdo com direção clara para negócios que querem crescer com mais organização, presença e consistência digital."
+      content="Sites, sistemas e automações construídos para organizar operações e sustentar o próximo passo do seu negócio."
     />
     <meta
       name="keywords"
@@ -22,29 +13,18 @@
     />
     <meta name="author" content="Titanium Agency Legacy" />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#050A30" />
+    <meta name="theme-color" content="#0b1030" />
     <meta name="format-detection" content="telephone=no" />
 
     <link rel="canonical" href="https://titaniumagencylegacy.com.br/" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
-    <link rel="preload" as="image" href="/frames/hero-poster.jpg" fetchpriority="high" />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-    <link
-      href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap"
-      rel="stylesheet"
-    />
-
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Titanium Agency Legacy" />
     <meta
       property="og:description"
-      content="Desenvolvemos sites, sistemas e presença digital com mais clareza, consistência e proximidade no processo."
+      content="Construímos sites, sistemas e automações para o próximo passo do seu negócio."
     />
     <meta property="og:url" content="https://titaniumagencylegacy.com.br/" />
     <meta property="og:site_name" content="Titanium Agency Legacy" />
@@ -55,15 +35,29 @@
     <meta name="twitter:title" content="Titanium Agency Legacy" />
     <meta
       name="twitter:description"
-      content="Desenvolvimento web, sistemas e presença digital para negócios que querem crescer com mais clareza."
+      content="Sites, sistemas e automações para organizar operações e construir o próximo passo."
     />
     <meta name="twitter:image" content="https://titaniumagencylegacy.com.br/logoTitanium.png" />
     <meta name="twitter:image:alt" content="Logotipo da Titanium Agency Legacy" />
 
-    <title>Titanium Agency Legacy | Sites, sistemas e conteúdo com direção</title>
+    <title>Titanium Agency Legacy | Sites, sistemas e automações</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      window.addEventListener('load', function () {
+        window.setTimeout(function () {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-QKZHYQMZQX';
+          document.body.appendChild(script);
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function(){window.dataLayer.push(arguments);};
+          window.gtag('js', new Date());
+          window.gtag('config', 'G-QKZHYQMZQX');
+        }, 1200);
+      });
+    </script>
   </body>
 </html>

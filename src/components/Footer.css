@@ -33,6 +33,24 @@
   border: 1px solid rgba(61, 106, 193, 0.18);
 }
 
+.footer-brand-mark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  border: 1px solid currentColor;
+}
+
+.footer-brand-logo {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: .1em;
+}
+
+.footer-brand-logo small {
+  margin-left: 6px;
+  font: 8px var(--font-mono);
+  opacity: .5;
+}
+
 .footer-brand-mark img {
   width: 28px;
   height: 28px;

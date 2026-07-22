@@ -1,7 +1,5 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useEffect, useRef } from 'react'
 import useLenis from './hooks/useLenis'
-import CustomCursor from './components/CustomCursor'
-import LoadingScreen from './components/LoadingScreen'
 import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
 import WhatsAppButton from './components/WhatsAppButton'
@@ -10,7 +8,6 @@ import './styles/globals.css'
 const ServicesSection = lazy(() => import('./components/ServicesSection'))
 const PortfolioSection = lazy(() => import('./components/PortfolioSection'))
 const SobreSection = lazy(() => import('./components/SobreSection'))
-const DiferenciaisSection = lazy(() => import('./components/DiferenciaisSection'))
 const TestimonialsSection = lazy(() => import('./components/TestimonialsSection'))
 const ContatoSection = lazy(() => import('./components/ContatoSection'))
 const Footer = lazy(() => import('./components/Footer'))
@@ -26,7 +23,6 @@ function SectionFallback() {
 }
 
 export default function App() {
-  const [loading, setLoading] = useState(true)
   const progressRef = useRef(null)
 
   useLenis()
@@ -67,7 +63,6 @@ export default function App() {
 
   return (
     <>
-      {loading ? <LoadingScreen onComplete={() => setLoading(false)} /> : null}
       <a href="#main-content" className="skip-link">Pular para o conteúdo</a>
       <div
         ref={progressRef}
@@ -78,7 +73,7 @@ export default function App() {
           left: 0,
           zIndex: 200,
           height: '2px',
-          background: 'var(--gold)',
+          background: 'var(--blue)',
           width: '100%',
           transform: 'scaleX(0)',
           transformOrigin: 'left center',
@@ -86,24 +81,20 @@ export default function App() {
           pointerEvents: 'none',
         }}
       />
-      <CustomCursor />
       <Navbar />
-      {!loading ? (
-        <main id="main-content" tabIndex="-1" aria-busy={loading}>
-          <HeroSection id="inicio" />
+      <main id="main-content" tabIndex="-1">
+        <HeroSection id="inicio" />
 
-          <Suspense fallback={<SectionFallback />}>
-            <ServicesSection id="servicos" />
-            <TestimonialsSection id="depoimentos" />
-            <PortfolioSection id="portfolio" />
-            <SobreSection id="sobre" />
-            <DiferenciaisSection id="diferenciais" />
-            <ContatoSection id="contato" />
-            <Footer />
-            <WhatsAppButton />
-          </Suspense>
-        </main>
-      ) : null}
+        <Suspense fallback={<SectionFallback />}>
+          <PortfolioSection id="portfolio" />
+          <ServicesSection id="servicos" />
+          <SobreSection id="sobre" />
+          <TestimonialsSection id="depoimentos" />
+          <ContatoSection id="contato" />
+          <Footer />
+          <WhatsAppButton />
+        </Suspense>
+      </main>
     </>
   )
 }

@@ -1,19 +1,16 @@
-import iconSrc from '../assets/icone-t.png'
-import logoSrc from '../assets/logo-titanium.png'
 import { buildWhatsappLink, contactEmail, instagramUrl, siteName } from '../config/site'
 import './Footer.css'
 
 const links = {
   servicos: [
-    { label: 'Desenvolvimento Web', href: '#servicos' },
-    { label: 'Sistemas e Plataformas', href: '#servicos' },
-    { label: 'Conteúdo para Instagram', href: '#servicos' },
-    { label: 'Automação', href: '#servicos' },
+    { label: 'Sites e experiências', href: '#servicos' },
+    { label: 'Sistemas sob medida', href: '#servicos' },
+    { label: 'Automações e integrações', href: '#servicos' },
   ],
   empresa: [
     { label: 'Sobre nós', href: '#sobre' },
     { label: 'Portfólio', href: '#portfolio' },
-    { label: 'Diferenciais', href: '#diferenciais' },
+    { label: 'Nosso processo', href: '#sobre' },
     { label: 'Depoimentos', href: '#depoimentos' },
   ],
   contato: [
@@ -33,22 +30,14 @@ export default function Footer() {
           <div>
             <div className="footer-brand">
               <span className="footer-brand-mark" aria-hidden="true">
-                <img src={iconSrc} alt="" width="28" height="28" loading="lazy" decoding="async" />
+                T
               </span>
-              <img
-                className="footer-brand-logo"
-                src={logoSrc}
-                alt={siteName}
-                width="129"
-                height="34"
-                loading="lazy"
-                decoding="async"
-              />
+              <strong className="footer-brand-logo">TITANIUM <small>LEGACY</small></strong>
             </div>
 
             <p className="footer-tagline">Criamos Legado.</p>
             <p className="footer-desc">
-              Sites, sistemas e conteúdo com direção clara para negócios em fase de crescimento.
+              Construímos sites, sistemas e automações para o próximo passo do seu negócio.
             </p>
           </div>
 

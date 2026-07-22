@@ -1,10 +1,63 @@
+@font-face {
+  font-family: 'Clash Display';
+  src: url('../assets/fonts/clash-display-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Display';
+  src: url('../assets/fonts/clash-display-500.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Display';
+  src: url('../assets/fonts/clash-display-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Display';
+  src: url('../assets/fonts/clash-display-700.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('../assets/fonts/general-sans-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('../assets/fonts/general-sans-500.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('../assets/fonts/general-sans-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+
 :root {
-  --bg: #050a30;
-  --bg2: #1a2444;
-  --bg3: #2a468b;
-  --blue: #3d6ac1;
-  --gold: #e0af46;
-  --cream: #fcf8e8;
+  --paper: #f2f1eb;
+  --ink: #101014;
+  --navy: #0b1030;
+  --blue: #1f3fe0;
+  --blue-lift: #7da2ff;
+  --bg: var(--navy);
+  --bg2: #121a43;
+  --bg3: #1b285c;
+  --gold: var(--blue-lift);
+  --cream: var(--paper);
   --cream-60: rgba(252, 248, 232, 0.6);
   --cream-30: rgba(252, 248, 232, 0.3);
   --blue-border: rgba(61, 106, 193, 0.2);
@@ -12,6 +65,7 @@
   --shadow-soft: 0 24px 80px rgba(0, 0, 0, 0.28);
   --font-display: 'Clash Display', 'Clash Grotesk', 'Segoe UI', system-ui, sans-serif;
   --font-body: 'General Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
   --section-padding-x: clamp(1.5rem, 6vw, 6rem);
   --section-padding-y: clamp(4rem, 8vw, 8rem);
   font-family: var(--font-body);
@@ -55,7 +109,7 @@ body {
   font-family: var(--font-body);
   font-weight: 400;
   line-height: 1.7;
-  cursor: none;
+  cursor: auto;
   overflow-x: hidden;
 }
 

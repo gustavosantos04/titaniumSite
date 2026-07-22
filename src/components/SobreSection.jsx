@@ -1,125 +1,50 @@
-import BlurText from './BlurText'
 import Timeline from './Timeline'
-import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import './SobreSection.css'
 
-const USE_ORBITAL_VISUAL = true
+const principles = [
+  { number: '01', title: 'Contato direto', text: 'Você conversa com quem entende e executa o projeto, sem camadas desnecessárias no caminho.' },
+  { number: '02', title: 'Escopo visível', text: 'Etapas, prioridades e limites são alinhados antes da construção para que todos saibam o que esperar.' },
+  { number: '03', title: 'Entrega acompanhada', text: 'Publicação não é despedida. A entrega inclui orientação e espaço para os ajustes combinados.' },
+]
 
-const valores = [
-  {
-    sigla: 'M',
-    titulo: 'Missão',
-    texto: 'Ajudar negócios a organizar sua presença digital com mais clareza, direção e consistência.',
-  },
-  {
-    sigla: 'V',
-    titulo: 'Visão',
-    texto: 'Crescer de forma sustentável ao lado de marcas que valorizam trabalho bem feito e comunicação direta.',
-  },
-  {
-    sigla: 'V',
-    titulo: 'Valores',
-    texto: 'Honestidade no escopo, cuidado na execução, proximidade no processo e melhoria contínua a cada entrega.',
-  },
+const mvv = [
+  { label: 'Missão', text: 'Transformar necessidades reais de negócio em tecnologia útil, compreensível e bem construída.' },
+  { label: 'Visão', text: 'Construir uma empresa reconhecida por produtos digitais duradouros e relações honestas.' },
+  { label: 'Valores', text: 'Responsabilidade no escopo, cuidado na execução, comunicação direta e evolução contínua.' },
 ]
 
 export default function SobreSection({ id }) {
-  const leftRef = useScrollAnimation({ threshold: 0.15 })
-  const rightRef = useScrollAnimation({ threshold: 0.15, rootMargin: '0px 0px -40px 0px' })
-  const processRef = useScrollAnimation({ threshold: 0.15, rootMargin: '0px 0px -40px 0px' })
-
   return (
-    <section className="sobre" id={id} aria-label="Sobre nós">
-      <div className="sobre-inner">
-        <div ref={leftRef} className="sobre-left">
-          {USE_ORBITAL_VISUAL ? (
-            <div className="sobre-visual anim-hidden-left">
-              <div className="sv-ring sv-ring--1" aria-hidden="true" />
-              <div className="sv-ring sv-ring--2" aria-hidden="true" />
-              <div className="sv-ring sv-ring--3" aria-hidden="true" />
-
-              <div className="sv-center">
-                <span className="sv-year">1:1</span>
-                <span className="sv-label">parceria</span>
-              </div>
-
-              <div className="sv-stat sv-stat--tl">
-                <strong>escuta</strong>
-                <span>ativa</span>
-              </div>
-
-              <div className="sv-stat sv-stat--br">
-                <strong>entrega</strong>
-                <span>clara</span>
-              </div>
-
-              <div className="sv-badge">
-                <span>com</span>
-                <span className="sv-badge-gold">método</span>
-              </div>
-            </div>
-          ) : (
-            <div className="sobre-editorial anim-hidden-left">
-              <div className="sobre-editorial-card">
-                <span className="sobre-editorial-tag">Operação enxuta</span>
-                <h3 className="sobre-editorial-title">Criamos presença digital com direção estratégica, estética forte e execução consistente.</h3>
-                <p className="sobre-editorial-text">
-                  Menos efeito solto, mais estrutura. A proposta aqui é transformar ideia em presença digital clara, funcional e alinhada ao momento da marca.
-                </p>
-              </div>
-
-              <div className="sobre-editorial-stats">
-                <div className="sobre-stat-card">
-                  <strong>escuta</strong>
-                  <span>antes de qualquer entrega</span>
-                </div>
-                <div className="sobre-stat-card">
-                  <strong>clareza</strong>
-                  <span>do briefing ao lançamento</span>
-                </div>
-              </div>
-            </div>
-          )}
+    <section className="about" id={id} aria-labelledby="about-heading">
+      <div className="about-intro">
+        <div>
+          <span className="section-eyebrow">Titanium / modo de construir</span>
+          <h2 id="about-heading" className="section-heading">A ideia ganha<br />estrutura.</h2>
         </div>
-
-        <div ref={rightRef} className="sobre-right">
-          <div className="sobre-right-shell anim-hidden-right">
-            <p className="section-eyebrow">Sobre nós</p>
-            <BlurText
-              as="h2"
-              text="Presença com direção"
-              className="section-heading"
-            />
-            <BlurText
-              text="Somos uma agência jovem, com operação enxuta e acompanhamento próximo. Entramos em cada projeto para entender o contexto, organizar prioridades e entregar algo coerente com o momento do negócio."
-              className="sobre-desc"
-            />
-
-            <div className="sobre-divider" />
-
-            <div className="sobre-mvv">
-              {valores.map((valor) => (
-                <article key={valor.titulo} className="mvv-item anim-hidden">
-                  <span className="mvv-sigla">{valor.sigla}</span>
-                  <div>
-                    <span className="mvv-titulo">{valor.titulo}</span>
-                    <p className="mvv-texto">{valor.texto}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
+        <div className="about-statement">
+          <p>Somos um estúdio de tecnologia com operação enxuta. Entramos em cada projeto para entender a rotina, decidir o que importa agora e construir uma solução que possa continuar evoluindo.</p>
+          <span>ESTRATÉGIA → INTERFACE → TECNOLOGIA</span>
         </div>
       </div>
 
-      <div ref={processRef} className="sobre-process anim-hidden">
-        <p className="section-eyebrow">Como trabalhamos</p>
-        <BlurText
-          as="h2"
-          text="Nosso processo"
-          className="section-heading"
-        />
+      <div className="about-principles">
+        {principles.map((item) => (
+          <article key={item.number}>
+            <span>{item.number}</span><h3>{item.title}</h3><p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+
+      <div className="about-process">
+        <span className="section-eyebrow">Do primeiro contato ao lançamento</span>
+        <h2 className="section-heading">Um processo que você<br />consegue acompanhar.</h2>
         <Timeline />
+      </div>
+
+      <div className="about-mvv">
+        {mvv.map((item) => (
+          <article key={item.label}><h3>{item.label}</h3><p>{item.text}</p></article>
+        ))}
       </div>
     </section>
   )
